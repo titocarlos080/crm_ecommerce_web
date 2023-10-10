@@ -1,4 +1,4 @@
-<   x-layouts.app>
+< x-layouts.app>
     <div class="container mt-4">
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6 col-xl-5">
@@ -9,13 +9,13 @@
                         <div class="text-center w-75 m-auto">
                             <a href="/">
                                 <!-- NOMBRE EMPRESA -->
-                                <span>ECOMMERCE</span>
+                                <span>CRM</span>
                             </a>
                         </div>
 
                         <h5 class="auth-title">Iniciar Sesión</h5>
 
-                        <form   method="POST">
+                        <form method="POST">
                             @csrf
                             <div class="form-group mb-3">
                                 <label for="email">Correo Electrónico:</label>
@@ -56,4 +56,4 @@
 
     </div>
 
-</x-layouts.app>
+    </x-layouts.app>
