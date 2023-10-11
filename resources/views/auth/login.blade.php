@@ -27,10 +27,12 @@
 
                             <div class="form-group mb-1">
                                 <label for="password">Contraseña:</label>
-                                <input class="form-control" name="password" type="password" id="password" placeholder="Ingrese su contraseña">
-                                @error('password')
-                                <span class="error text-danger">* {{ $message }}</span>
-                                @enderror
+                                <div class="input-group">
+                                    <input class="form-control" name="password" type="text" id="password" placeholder="Ingrese su contraseña">
+                                    <div class="input-group-append">
+                                        <button type="button" id="showPassword" class="btn btn-secondary">Mostrar</button>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="form-group">

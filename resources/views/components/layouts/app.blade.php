@@ -27,6 +27,20 @@
 
 
     @stack('js')
+    <script>
+        const passwordInput = document.getElementById('password');
+        const showPasswordButton = document.getElementById('showPassword');
+
+        showPasswordButton.addEventListener('click', () => {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                showPasswordButton.innerText = 'Ocultar';
+            } else {
+                passwordInput.type = 'password';
+                showPasswordButton.innerText = 'Mostrar';
+            }
+        });
+    </script>
 </body>
 
 </html>

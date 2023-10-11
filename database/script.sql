@@ -1,115 +1,177 @@
--- Crea la base de datos
-CREATE DATABASE db_ventas;
-
--- Conecta a la base de datos
-USE db_ventas;
-
--- Crea la tabla `actividad`
-CREATE TABLE actividad (
-  id SERIAL NOT NULL,
-  estado_actividad VARCHAR(50) NOT NULL,
-  id_oportunidad_venta INT NOT NULL,
-  nombre VARCHAR(100) NOT NULL,
-  titulo VARCHAR(100) NOT NULL,
-  descripcion VARCHAR(1000) NOT NULL,
-  fecha_inicio DATE NOT NULL,
-  fecha_final DATE NOT NULL,
-  monto_esperado DECIMAL(10,2) NOT NULL,
-  foto VARCHAR(255) NOT NULL,
-  PRIMARY KEY (id)
+  -- Crea la tabla `Planes`
+ CREATE TABLE plan (
+    id serial PRIMARY KEY,
+    nombre text,
+    precio numeric,
+    logo VARCHAR(300),
+    almacenamiento text,
+    ancho_de_banda text,
+    dominio boolean,
+    usuarios integer,
+    soporte_por_correo boolean,
+    soporte_24x7 boolean
 );
 
--- Crea la tabla `cliente`
-CREATE TABLE cliente (
+ 
+ -- Crea la tabla `empresa`
+CREATE TABLE empresa(
   id SERIAL NOT NULL,
   nombre VARCHAR(100) NOT NULL,
   email VARCHAR(100) NOT NULL,
-  password VARCHAR(100) NOT NULL,
-  PRIMARY KEY (id)
-);
-
--- Crea la tabla `equipo`
-CREATE TABLE equipo (
-  id SERIAL NOT NULL,
-  nombre VARCHAR(100) NOT NULL,
-  PRIMARY KEY (id)
-);
-
--- Crea la tabla `empleado`
-CREATE TABLE empleado (
-  id SERIAL NOT NULL,
-  nombre VARCHAR(100) NOT NULL,
-  email VARCHAR(100) NOT NULL,
-  password VARCHAR(100) NOT NULL,
-  id_equipo INT NOT NULL,
+  descripcion VARCHAR(100) NOT NULL,
+  id_plan INT NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (id_equipo) REFERENCES equipo (id)
-);
-
--- Crea la tabla `envio`
-CREATE TABLE envio (
-  id SERIAL NOT NULL,
-  monto_total DECIMAL(10,2) NOT NULL,
-  PRIMARY KEY (id)
-);
-
--- Crea la tabla `empresa`
-CREATE TABLE empresa (
-  id SERIAL NOT NULL,
-  nombre VARCHAR(100) NOT NULL,
-  PRIMARY KEY (id)
+  FOREIGN KEY(id_plan) REFERENCES plan(id) 
 );
 
 -- Crea la tabla `historial`
 CREATE TABLE historial (
   id SERIAL NOT NULL,
-  cantidad INT NOT NULL,
-  precio INT NOT NULL,
-  nombre VARCHAR(100) NOT NULL,
-  PRIMARY KEY (id)
-);
-
--- Crea la tabla `pedido`
-CREATE TABLE pedido (
-  id SERIAL NOT NULL,
-  id_envio INT NOT NULL,
-  id_cliente INT NOT NULL,
+  descripcion VARCHAR(100) NOT NULL,
+  id_empresa INT NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (id_envio) REFERENCES envio (id),
-  FOREIGN KEY (id_cliente) REFERENCES cliente (id)
-);
+  FOREIGN KEY(id_empresa) REFERENCES empresa(id) ON DELETE CASCADE
 
--- Crea la tabla `producto`
-CREATE TABLE producto (
+);
+-- Crea la tabla `quejas`
+CREATE TABLE queja (
   id SERIAL NOT NULL,
-  nombre VARCHAR(100) NOT NULL,
-  descripcion VARCHAR(1000) NOT NULL,
-  precio DECIMAL(10,2) NOT NULL,
-  foto VARCHAR(255) NOT NULL,
-  stock INT NOT NULL,
-  PRIMARY KEY (id)
+  descripcion VARCHAR(100) NOT NULL,
+  id_empresa INT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY(id_empresa) REFERENCES empresa(id) ON DELETE CASCADE
+
 );
 
 -- Crea la tabla `quejas`
-CREATE TABLE quejas (
-  id SERIAL NOT NULL,
-  email VARCHAR(100) NOT NULL,
-  descripcion VARCHAR(1000) NOT NULL,
-  PRIMARY KEY (id)
-);
-
--- Crea la tabla `tipo_pago`
-CREATE TABLE tipo_pago (
+CREATE TABLE rol (
   id SERIAL NOT NULL,
   nombre VARCHAR(100) NOT NULL,
-  PRIMARY KEY (id)
+  id_empresa int NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY(id_empresa) REFERENCES empresa(id) ON DELETE CASCADE
+
 );
 
--- Crea la tabla `usuario`
-CREATE TABLE usuario (
-  id SERIAL NOT NULL,
-  nombre VARCHAR(100) NOT NULL,
-  email VARCHAR(100) NOT NULL,
-  password VARCHAR(100) NOT NULL,
-  PRIMARY KEY (id)
+CREATE TABLE usuario(
+	id serial NOT NULL PRIMARY KEY,
+	nombre varchar(60) ,
+	email varchar(60) ,
+	foto varchar(300),
+ 	telefono varchar(30), 
+	password varchar(300) NOT NULL,
+	id_rol int NOT NULL,
+	id_empresa int NOT NULL,
+	FOREIGN KEY (id_rol) REFERENCES rol(id),  
+	FOREIGN KEY (id_empresa) REFERENCES empresa(id) ON DELETE CASCADE ON UPDATE CASCADE  
+);
+CREATE TABLE direccion(
+	id serial NOT NULL PRIMARY KEY,
+	ciudad varchar(60) ,
+	calle varchar(60) ,
+	numero int not null,
+	id_usuario int NOT NULL,
+	FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+-- hasta aqui coore bien
+--------------------------------------------------------------------
+INSERT INTO plan(nombre, precio, almacenamiento, ancho_de_banda, dominio, usuarios, soporte_por_correo, soporte_24x7)
+VALUES
+    ('Plan Prueba', 0, '2 GB', '10 GB', false, 1, false, false),
+    ('Plan Básico', 19.00, '10 GB', '50 GB', false, 1, true, true),
+    -- Agrega más registros para otros planes de precios
+    ('Plan Premium', 39.00, '50 GB', '200 GB', true, 5, true, true);
+
+
+INSERT into empresa (nombre,email,descripcion,id_plan) values('ADM_CENTER','admincenter@gmail.com','empresa central',1);
+
+
+--------------------------------------------------------------------
+-- ROLES
+INSERT into rol (nombre,id_empresa) values('Administrador',1);
+
+contraseña=12345
+ INSERT INTO usuario (nombre, email, foto, telefono, password, id_rol, id_empresa)
+VALUES
+('Tito Carlos', 'titocarlos080@gmail.com', 'ruta/foto.jpg', '123456789', cifrado, 1, 1);
+
+
+
+
+--------------------------------------------------------------------
+
+
+CREATE TABLE categoria (
+	id serial PRIMARY KEY,
+	nombre varchar(60)
+);
+ 
+
+CREATE TABLE producto (
+	id serial PRIMARY KEY,
+  	nombre varchar(60) NOT NULL,
+  	imagen varchar(100),
+  	descripcion varchar(200),
+	  stock decimal NOT NULL check(precio >= 0),
+	  precio real NOT NULL,
+  	id_categoria int NOT NULL,
+  	id_talla int NOT NULL,
+  	id_sucursal int NOT NULL,
+  	FOREIGN KEY (id_categoria) REFERENCES categoria(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  	FOREIGN KEY (id_talla) REFERENCES talla(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  	FOREIGN KEY (id_sucursal) REFERENCES sucursal(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+CREATE TABLE metodo_envio(
+	id serial PRIMARY KEY,
+	nombre varchar(60) NOT NULL,
+	costo real NOT NULL
+);
+CREATE TABLE estado(
+	id serial PRIMARY KEY,
+	nombre varchar(60) NOT NULL
+);
+CREATE TABLE pedido(
+	id serial PRIMARY KEY,
+	id_usuario int NOT NULL,
+ 	id_estado int NOT NULL,
+	FOREIGN KEY (id_usuario) REFERENCES  usuario(id),
+ 	FOREIGN KEY (id_estado) REFERENCES estado(id)
+
+);
+CREATE TABLE envio(
+	id_direccion int NOT NULL ,
+	id_pedido  	int  NOT NULL,
+	id_metodo_envio int NOT NULL,
+	PRIMARY KEY(id_direccion,id_pedido),
+	FOREIGN KEY (id_metodo_envio) REFERENCES metodo_envio(id) , 
+	FOREIGN KEY (id_direccion) REFERENCES direccion(id) , 
+	FOREIGN KEY (id_pedido) REFERENCES pedido(id)  
+
+);
+CREATE TABLE metodo_pago(
+	id serial PRIMARY KEY,
+	nombre varchar(60) NOT NULL
+);
+
+CREATE TABLE pago(
+	id serial PRIMARY KEY,
+	monto real CHECK(monto>0),	
+	descripcion varchar(60),
+	id_metodo int NOT NULL,
+	id_pedido int NOT NULL,
+	FOREIGN KEY (id_pedido) REFERENCES pedido(id),
+	FOREIGN KEY (id_metodo) REFERENCES metodo_pago(id)
+);
+
+CREATE TABLE detalle_pedido(
+	id_producto int NOT NULL,
+	id_pedido int NOT NULL,
+	cantidad int NOT NULL,
+	precio real CHECK(precio>=0),
+	PRIMARY KEY ( id_producto,id_pedido),
+ 	FOREIGN KEY (id_producto) REFERENCES producto(id) ,
+ 	FOREIGN KEY (id_pedido) REFERENCES pedido(id)  
+	
 );

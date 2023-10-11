@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Plan;
 use Illuminate\Http\Request;
 
 class ServicioController extends Controller
@@ -9,6 +10,8 @@ class ServicioController extends Controller
     //
     public function index()
     {
-        return view('welcome');
+
+        $planes= Plan::all();
+        return view('welcome',['planes'=>$planes]);
     }
 }

@@ -1,11 +1,50 @@
 <div class="slimscroll-menu">
     <!--- Sidemenu -->
     <div id="sidebar-menu">
+
+
+        @php
+        $usuario = auth()->user(); // Obtener el usuario autenticado
+        $empresa = $usuario->empresa; // Acceder a la propiedad "empresa" del usuario
+        $rol = $usuario->rol; // Acceder a la propiedad "rol" del usuario
+        @endphp
+
+
+        @if($empresa->nombre == 'ADM_CENTER')
+        <ul class="metismenu" id="side-menu">
+            <li>
+                <a href="#">
+                    <i class="fas fa-home"></i>
+                    <span> CRM </span>
+                </a>
+            </li>
+
+            <!-- Menú de Planes -->
+            <li>
+                <a href="#">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Planes</span>
+                    <span class="menu-arrow"></span>
+                </a>
+            </li>
+
+            <!-- Menú de Empresas -->
+            <li>
+                <a href="#">
+                    <i class="fas fa-building"></i> <!-- Icono para Empresas -->
+                    <span>Empresas</span>
+                    <span class="menu-arrow"></span>
+                </a>
+            </li>
+        </ul>
+
+        @else
         <ul class="metismenu" id="side-menu">
 
             <li>
                 <a href="">
                     <i class="fas fa-home"></i>
+
                     <span> CRM </span>
                 </a>
             </li>
@@ -101,6 +140,8 @@
                 </ul>
             </li>
         </ul>
+        @endif
+
     </div>
     <!-- End Sidebar -->
     <div class="clearfix"></div>
