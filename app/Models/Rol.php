@@ -13,7 +13,7 @@ class Rol extends Model
     use HasFactory;
     public $timestamps = false;
     protected $table = 'rol';
-    public $fillable= ['id','nombre'];
+    public $fillable= ['id','nombre','id_empresa'];
     public function usuarios(): HasMany {
     return $this->hasMany(Usuario::class, 'id_rol');
     }  

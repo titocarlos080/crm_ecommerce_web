@@ -37,7 +37,7 @@ class RegistroController extends Controller
             $usuario->foto = $request->foto || '';
             $usuario->telefono = $request->telefono || '';
             $usuario->password = bcrypt($request->password);
-            $usuario->id_rol = 1;
+            $usuario->id_rol = 2;
             $usuario->id_empresa = $empresa->id;
             $usuario->save();
             return redirect()->route('login');

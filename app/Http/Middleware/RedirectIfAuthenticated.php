@@ -29,6 +29,8 @@ class RedirectIfAuthenticated
                 }
                 if (auth()->user()->rol->nombre === 'Empleado') {
                     return redirect(RouteServiceProvider::EMPLEADO);
+                } if (auth()->user()->rol->nombre === 'Empresa') {
+                    return redirect(RouteServiceProvider::EMPRESA);
                 }
             }
         }

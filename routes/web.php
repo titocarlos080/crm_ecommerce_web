@@ -34,16 +34,26 @@ Route::middleware('guest')->group(
         Route::post('/registrar', [RegistroController::class, 'registrar'])->name('register');
     }
 );
-
+Route::middleware('auth.empresa')->group(function () {
+    Route::get('/empresa', [DashboardController::class, 'crm_vista'])->name('crm_empresa');
+    Route::get('/empresa/empleados', [DashboardController::class, 'crm_empleados'])->name('empresa_empleados');
+    Route::get('/empresa/clientes', [DashboardController::class, 'crm_clientes'])->name('empresa_clientes');
+    Route::get('/empresa/gestionar_productos', [DashboardController::class, 'crm_productos'])->name('empresa_gestionar_productos');
+    Route::get('/empresa/gestionar_pedidos', [DashboardController::class, 'crm_pedidos'])->name('empresa_gestionar_pedidos');
+});
+Route::middleware('auth.empleado')->group(function () {
+    Route::get('/crm', [DashboardController::class, 'crm_vista'])->name('crm_dashboard');
+    Route::get('/crm/empleados', [DashboardController::class, 'crm_empleados'])->name('crm_empleados');
+    Route::get('/crm/clientes', [DashboardController::class, 'crm_clientes'])->name('crm_clientes');
+    Route::get('/crm/gestionar_productos', [DashboardController::class, 'crm_productos'])->name('crm_gestionar_productos');
+    Route::get('/crm/gestionar_pedidos', [DashboardController::class, 'crm_pedidos'])->name('crm_gestionar_pedidos');
+});
 Route::middleware('auth.admin')->group(function () {
     Route::get('/admin', [AdminController::class, 'admin_vista'])->name('admin_vista');
+    Route::get('/admin/gestionar_planes', [AdminController::class, 'admin_gestionar_planes'])->name('admin_gestionar_planes');
     Route::get('/admin/gestionar_empresas', [AdminController::class, 'admin_gestionar_empresas'])->name('admin_gestionar_empresas');
 });
 
 
-Route::middleware('auth.empleado')->group(function () {
-    Route::get('/crm', [DashboardController::class, 'crm_vista'])->name('crm_dashboard');
-    Route::get('/crm/gestionar_productos', [DashboardController::class, 'crm_productos'])->name('crm_gestionar_productos');
-    Route::get('/crm/gestionar_pedidos', [DashboardController::class, 'crm_pedidos'])->name('crm_gestionar_pedidos');
-});
+
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

@@ -24,7 +24,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card-box">
-                                fg
+                            GESTION EMPRESARIAL NOMBRE EMPRESA
                             </div>
                         </div>
                     </div>
@@ -40,9 +40,4 @@
         <!-- ========================================================== -->
 
     </div>
-
-
-
-
-
 </x-layouts.app>

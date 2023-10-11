@@ -89,6 +89,10 @@ INSERT into empresa (nombre,email,descripcion,id_plan) values('ADM_CENTER','admi
 --------------------------------------------------------------------
 -- ROLES
 INSERT into rol (nombre,id_empresa) values('Administrador',1);
+INSERT into rol (nombre,id_empresa) values('Empresa',1);
+INSERT into rol (nombre,id_empresa) values('Empleado',1);
+INSERT into rol (nombre,id_empresa) values('Cliente',1);
+
 
 contraseña=12345
  INSERT INTO usuario (nombre, email, foto, telefono, password, id_rol, id_empresa)

@@ -21,7 +21,7 @@
 
             <!-- Menú de Planes -->
             <li>
-                <a href="#">
+                <a href="{{route('admin_gestionar_planes')}}">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Planes</span>
                     <span class="menu-arrow"></span>
@@ -30,7 +30,7 @@
 
             <!-- Menú de Empresas -->
             <li>
-                <a href="#">
+                <a href="{{route('admin_gestionar_empresas')}}">
                     <i class="fas fa-building"></i> <!-- Icono para Empresas -->
                     <span>Empresas</span>
                     <span class="menu-arrow"></span>
@@ -69,7 +69,7 @@
                         <a href="#"><i class="fas fa-users"></i> Equipos</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fas fa-user"></i> Clientes</a>
+                        <a href="{{route('empresa_clientes')}}"><i class="fas fa-user"></i> Clientes</a>
                     </li>
                 </ul>
             </li>
@@ -104,6 +104,8 @@
                 <ul class="nav-second-level" aria-expanded="false">
                     <li>
                         <a href="#"><i class="fas fa-cogs"></i> Ajustes</a>
+                    </li><li>
+                        <a href="{{route('empresa_empleados')}}"><i class="fas fa-user"></i> Empleados</a>
                     </li>
                     <li>
                         <a href="#"><i class="fas fa-tasks"></i> Tipos de actividad</a>

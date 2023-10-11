@@ -32,7 +32,10 @@ class LoginController extends Controller
             if ($rol === 'Administrador') {
                 return redirect()->route('admin_vista');
             }
-           if ($rol === 'Empleado') {
+           if ($rol === 'Empresa') {
+                return redirect()->route('crm_empresa');
+            }
+             if ($rol === 'Empleado') {
                 return redirect()->route('crm_dashboard');
             }
             return redirect('/');

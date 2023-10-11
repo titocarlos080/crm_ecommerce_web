@@ -15,10 +15,10 @@ class EmpleadoMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ( auth()->check() && auth()->user()->rol->nombre ==='Empleado' ) {
-            return $next($request);  
+        if ((auth()->check() && auth()->user()->rol->nombre === 'Empleado' )) {
+            return $next($request);
         }
-        
+
         return redirect('/login');
     }
 }
