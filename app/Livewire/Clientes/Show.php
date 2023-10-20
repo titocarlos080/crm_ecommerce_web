@@ -22,7 +22,7 @@ class Show extends Component
         $this->id_empresa = Auth::user()->empresa->id;
         $this->clientes = Usuario::where('id_empresa', $this->id_empresa)
         ->where('id_rol',4)
-        ->get();
+        ->get() || [] ;
     }
     public function nuevoEmpleado()
     {
