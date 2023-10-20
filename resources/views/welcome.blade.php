@@ -17,7 +17,7 @@
 
                          </div>
                          <h4 class="page-title text-bold">BIENVENIDOS A CRM </h4>
-                         <span>software de getion empresarial </span>
+                         <span>software de gestion empresarial </span>
                      </div>
                  </div>
              </div>

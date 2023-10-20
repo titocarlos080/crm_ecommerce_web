@@ -49,6 +49,7 @@ class Create extends Component
         }
         $usuario->save();
         $this->redirect('/crm/clientes');
+        
     }
 
     public function cancelar()

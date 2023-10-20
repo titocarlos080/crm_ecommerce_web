@@ -20,7 +20,9 @@ class Show extends Component
     {
 
         $this->id_empresa = Auth::user()->empresa->id;
-        $this->clientes = Usuario::where('id_empresa', $this->id_empresa)->get();
+        $this->clientes = Usuario::where('id_empresa', $this->id_empresa)
+        ->where('id_rol',4)
+        ->get();
     }
     public function nuevoEmpleado()
     {
@@ -39,6 +41,7 @@ class Show extends Component
     }
     public function eliminarCliente($id)
     {
+        
         Usuario::destroy('id', $id);
     }
 

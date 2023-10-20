@@ -105,11 +105,8 @@ VALUES
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-----------contraseña=12345----------------------------------------------------------
-GRANT ALL PRIVILEGES ON DATABASE parcial1 TO tito;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO tito;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO tito;
-
+ 
+GRANT ALL PRIVILEGES ON DATABASE proyectosi2 TO tito;
 sudo nano /etc/postgresql/12.16/main/postgresql.conf
 
 GRANT ALL PRIVILEGES ON TABLE plan TO tito;
@@ -135,8 +132,8 @@ CREATE TABLE producto (
   	nombre varchar(60) NOT NULL,
   	imagen varchar(100),
   	descripcion varchar(200),
-	stock decimal NOT NULL check(precio >= 0),
-	precio real NOT NULL,
+	  stock decimal NOT NULL check(precio >= 0),
+	  precio real NOT NULL,
   	id_categoria int NOT NULL,
   	id_talla int NOT NULL,
   	id_sucursal int NOT NULL,

@@ -3,7 +3,7 @@
     <livewire:clientes.create>
         @elseif($editarCliente)
         <livewire:clientes.edit>
-            @else
+            @else 
             <div class="row">
                 <div class="col-xl-12">
                     <div class="card-box">
@@ -66,3 +66,4 @@
 
             @endif
 </div>
+ 
