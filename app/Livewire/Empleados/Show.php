@@ -43,9 +43,7 @@ class Show extends Component
     }
     public function render()
     { $this->id_empresa = Auth::user()->empresa->id;
-        $this->empleados = Usuario::where('id_empresa', $this->id_empresa)
-        ->where('id_rol',3)
-        ->get();
+        $this->empleados = Usuario::where('id_empresa', $this->id_empresa)->get();
 
         return view('livewire.empleados.show');
     }
