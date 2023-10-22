@@ -4,13 +4,15 @@ namespace App\Livewire\Clientes;
 
 use App\Models\Rol;
 use App\Models\Usuario;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class Create extends Component
-{   use WithFileUploads;
+{
+    use WithFileUploads;
 
     public  $id_empresa;
     public  $id_rol;
@@ -20,6 +22,7 @@ class Create extends Component
     public  $telefono;
     public  $password;
     public  $foto;
+    public  $message_error;
 
     public function mount()
     {
@@ -27,29 +30,45 @@ class Create extends Component
         $this->roles = Rol::all();
     }
 
-    public function guardarCliente()
+    public function guardar()
     {
-          
-        $usuario = new Usuario();
-        $usuario->nombre = $this->nombre;
-        $usuario->email = $this->email;
-        $usuario->telefono = $this->telefono;
-        $usuario->password = $this->password;
-        $usuario->id_empresa = $this->id_empresa;
-        $usuario->id_rol = $this->id_rol;
-        $usuario->save();
 
+        try {
+            $this->validate([
+                'nombre' => 'required|string',
+                'email' => 'required|email',
+                'telefono' => 'nullable|numeric',
+                'password' => 'required|min:3',
+            ]);
+           
 
-        if ($this->foto->isValid()) {
+            //code...
+            $usuario = new Usuario();
 
-            $extensionImagen = $this->foto->getClientOriginalExtension();
-            $nombreImagen = 'CLIENTE' . str_pad($usuario->id, STR_PAD_RIGHT) . '.' . $extensionImagen;
-            $rutaImagen = $this->foto->storeAs('public/imagenes/clientes', $nombreImagen);
-            $usuario->foto = Storage::url($rutaImagen);
+            $usuario->nombre = $this->nombre;
+            $usuario->email = $this->email;
+            $usuario->telefono = $this->telefono;
+            $usuario->password = $this->password;
+            $usuario->id_empresa = $this->id_empresa;
+            $usuario->id_rol = 4;
+
+            $usuario->save();
+            
+
+            if ($this->foto->isValid()) {
+
+                $extensionImagen = $this->foto->getClientOriginalExtension();
+                $nombreImagen = 'CLIENTE' . str_pad($usuario->id, STR_PAD_RIGHT) . '.' . $extensionImagen;
+                $rutaImagen = $this->foto->storeAs('public/imagenes/clientes', $nombreImagen);
+                $usuario->foto = Storage::url($rutaImagen);
+           
+            }
+            $usuario->save();
+            $this->message_error = "cliente creado correctamente";
+        } catch (\Throwable $th) {
+            //throw $th;
+            $this->message_error = " Ops. hubo un problema al crear cliente";
         }
-        $usuario->save();
-        $this->redirect('/crm/clientes');
-        
     }
 
     public function cancelar()

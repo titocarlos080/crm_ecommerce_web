@@ -1,9 +1,9 @@
-<div>
+<div class="bg-gray-500">
     @if($crearCliente)
     <livewire:clientes.create>
         @elseif($editarCliente)
         <livewire:clientes.edit>
-            @else 
+            @else
             <div class="row">
                 <div class="col-xl-12">
                     <div class="card-box">
@@ -46,8 +46,14 @@
 
                                         <td>
 
-                                            <button wire:click='editarCliente({{$cliente->id}})' class="btn btn-xs btn-light"><i class="mdi mdi-plus"></i>Editar </button>
-                                            <button wire:clik='eliminarCliente({{$cliente->id}})' class="btn btn-xs btn-danger"><i class="mdi mdi-minus"></i>Eliminar</button>
+                                            <div>
+                                                <button wire:click="editar_cliente({{$cliente->id}})" class="btn btn-xs btn-light"><i class="mdi mdi-plus"></i>Editar </button>
+
+                                            </div>
+                                            <div>
+                                                <button wire:click="eliminarCliente({{$cliente->id}})" class="btn btn-xs btn-danger"><i class="mdi mdi-minus"></i>Eliminar</button>
+
+                                            </div>
 
                                         </td>
                                     </tr>
@@ -66,4 +72,3 @@
 
             @endif
 </div>
- 

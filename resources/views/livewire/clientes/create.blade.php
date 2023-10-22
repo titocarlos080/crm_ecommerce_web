@@ -1,48 +1,25 @@
 <div>
 
 
-<div class="col-md-3">
-    <div class="form-group">
-        <button type="button" wire:click="cancelar" wire:loading.attr="disabled" class="btn btn-danger waves-effect m-l-5">
-            Cancelar
-        </button>
-        <label for="roles" class="control-label">Roles</label>
+    <div class="col-md-6">
 
-        <select class="form-control" wire:model="id_rol" name="rol" id="rol">
-            <option value="">Seleccionar</option>
-            @php
-            $usuario = auth()->user(); // Obtener el usuario autenticado
-            $empresa = $usuario->empresa; // Acceder a la propiedad "empresa" del usuario
-            $rol = $usuario->rol; // Acceder a la propiedad "rol" del usuario
-            @endphp
 
-            @foreach ($roles as $rol)
-            @if($rol->id > 1)
-            <option value="{{ $rol->id }}">{{ $rol->nombre }}</option>
-            @endif
-            @endforeach
-        </select>
-    </div>
+        <div class="card">
+            <div class="card-body p-4">
+                <h5 class="auth-title">nUEVO CLIENTE</h5>
 
-    <div class="card">
-        <div class="card-body p-4">
-            <h5 class="auth-title">PANEL DE REGISTO</h5>
-            <form>
-                @csrf
                 <div class="form-group mb-3">
                     <label for="nombre">Nombre:</label>
-                    <input class="form-control" wire:model='nombre' name="nombre" type="text" id="nombre" placeholder="Ej. Evo Morales" autofocus>
+                    <input class="form-control" wire:model='nombre' name="nombre" type="text">
                 </div>
                 <div class="form-group mb-3">
                     <label for="telefono">Telefono:</label>
-                    <input class="form-control" wire:model='telefono' name="telefono" type="telefono" id="telefono" placeholder="">
+                    <input class="form-control" wire:model='telefono' type="telefono">
                 </div>
                 <div class="form-group mb-3">
                     <label for="email">Correo Electrónico:</label>
-                    <input class="form-control" wire:model='email' name="email" type="email" id="email" placeholder="evomorales@gmail.com">
-                    @error('email')
-                    <span class="error text-danger">* {{ $message }}</span>
-                    @enderror
+                    <input class="form-control" wire:model='email' type="email" id="email">
+
                 </div>
                 <div class="form-group mb-1">
                     <label for="password">Contraseña:</label>
@@ -60,11 +37,21 @@
 
                 </div>
                 <div class="form-group mb-0 text-center">
-                    <button wire:click='guardarCliente' class="btn btn-dark btn-block"  > REGISTRAR </button>
+                    <button wire:click='guardar' class="btn btn-dark "> REGISTRAR </button>
+
+                    <button type="button" wire:click="cancelar" wire:loading.attr="disabled" class="btn btn-danger waves-effect m-l-5">
+                        Cancelar
+                    </button>
+
+
                 </div>
 
-            </form>
+            </div>
 
+
+            @if($message_error)
+            <span> {{$message_error}} </span>
+            @endif
 
         </div>
     </div>

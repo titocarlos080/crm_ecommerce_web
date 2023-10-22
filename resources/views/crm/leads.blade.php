@@ -25,7 +25,7 @@
                         <div class="col-12">
                             <div class="card-box">
                            
-                            @livewire('empleados.show')
+                            @livewire('leads.show')
                             
                             </div>
                         </div>
