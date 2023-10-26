@@ -7,9 +7,10 @@ use App\Models\Usuario;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class Edit extends Component
-{
+{  use WithFileUploads;
     public $usuario;
     public  $id_empresa;
     public  $id_rol;
@@ -21,6 +22,11 @@ class Edit extends Component
     public  $foto;
 
 
+
+
+    public function mount()
+    {
+    }
 
     public function actualizarCliente()
     {
@@ -49,16 +55,21 @@ class Edit extends Component
 
 
 
-    #[On('editar_cliente')]
+    #[On('editar_clienteUP')]
     public function buscar_cliente($id)
-    {   
+    {
+
         $usuario_ = Usuario::find($id);
-        $this->nombre=$usuario_->nombre ;
+
+        $this->nombre = $usuario_->nombre;
         $this->email = $usuario_->email;
         $this->telefono = $usuario_->telefono;
         $this->password = $usuario_->password;
         $this->id_empresa = $usuario_->id_empresa;
+        $this->foto = $usuario_->foto;
         $this->id_rol = $usuario_->id_rol;
+        $this->roles = Rol::all();
+        return view('livewire.clientes.edit');
       
     }
 
@@ -67,8 +78,5 @@ class Edit extends Component
     {
         $this->dispatch('cerrar-vista_cliente');
     }
-    public function render()
-    {   $this->roles = Rol::all();
-        return view('livewire.clientes.edit');
-    }
+   
 }

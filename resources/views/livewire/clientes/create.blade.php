@@ -32,9 +32,14 @@
                 </div>
 
                 <div class="form-group mb-1">
-                    <label for="foto">Foto:</label>
-                    <input class="form-control" wire:model='foto' name="foto" type="file" id="foto">
-
+                    
+                    <div class="form-group mb-1">
+                        <label for="foto">Foto:</label>
+                        <input class="btn" wire:model='foto' name="foto" type="file" id="foto">
+                        @if($foto)
+                        <img src="{{ $foto->temporaryUrl() }}" width="64" height="64" alt="" srcset="">
+                         @endif
+                    </div>
                 </div>
                 <div class="form-group mb-0 text-center">
                     <button wire:click='guardar' class="btn btn-dark "> REGISTRAR </button>

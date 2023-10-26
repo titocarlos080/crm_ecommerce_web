@@ -16,7 +16,7 @@
     @livewireStyles
 </head>
 
-<body>
+<body class=" bg-soft-dark">
     {{ $slot }}
 
     @livewireScripts
@@ -42,5 +42,8 @@
         });
     </script>
 </body>
+
+
+
 
 </html>

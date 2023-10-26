@@ -1,4 +1,5 @@
-  -- Crea la tabla `Planes`
+-----SPRINT 1------------------------------------
+-- Crea la tabla `Planes`
  CREATE TABLE plan (
     id serial PRIMARY KEY,
     nombre text,
@@ -27,6 +28,7 @@ CREATE TABLE empresa(
 -- Crea la tabla `historial`
 CREATE TABLE historial (
   id SERIAL NOT NULL,
+  fecha TIMESTAMP NOT NULL,
   descripcion VARCHAR(100) NOT NULL,
   id_empresa INT NOT NULL,
   PRIMARY KEY (id),
@@ -53,6 +55,8 @@ CREATE TABLE rol (
 
 );
 
+
+
 CREATE TABLE usuario(
 	id serial NOT NULL PRIMARY KEY,
 	nombre varchar(60) ,
@@ -73,6 +77,136 @@ CREATE TABLE direccion(
 	id_usuario int NOT NULL,
 	FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+---------------------------------------------------------------------
+CREATE TABLE permiso(
+	id serial NOT NULL PRIMARY KEY,
+	nombre varchar(60) 
+);
+CREATE TABLE rol_permiso(
+	id_rol  int NOT NULL ,
+	id_permiso int NOT NULL ,
+	PRIMARY KEY(id_rol,id_permiso),
+	FOREIGN KEY (id_rol) REFERENCES rol(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (id_permiso) REFERENCES permiso(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+---------------------------------------------------------------------
+---------------SPRINT2 ----------------------------------------------
+---------------------------------------------------------------------
+CREATE TABLE estado_actividad (
+	id serial PRIMARY KEY,
+  	nombre varchar(60) NOT NULL, 
+   	id_empresa int NOT NULL,
+   	FOREIGN KEY (id_empresa) REFERENCES empresa(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE grupo (
+	id serial PRIMARY KEY,
+  	nombre varchar(60) NOT NULL, 
+   	id_empresa int NOT NULL,
+   	FOREIGN KEY (id_empresa) REFERENCES empresa(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE grupo_usuario (
+	id serial PRIMARY KEY,
+  	nombre varchar(60) NOT NULL, 
+   	id_usuario int NOT NULL,
+   	id_grupo int NOT NULL,
+   	FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (id_grupo) REFERENCES grupo(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE lead (
+ 
+	id serial PRIMARY KEY,
+  	nombre varchar(60) NOT NULL, 
+  	email varchar(60) NOT NULL, 
+  	telefono varchar(60) NOT NULL, 
+   	ganancia_esperada real NOT NULL, 
+   	id_empresa int NOT NULL,
+   	FOREIGN KEY (id_empresa) REFERENCES empresa(id) ON DELETE CASCADE ON UPDATE CASCADE  
+);
+CREATE TABLE actividad (
+	id serial PRIMARY KEY,
+  	titulo varchar(60) NOT NULL, 
+	fecha_inicio  TIMESTAMP  NOT NULL,
+	fecha_fin  TIMESTAMP  NOT NULL check(fecha_fin > fecha_inicio),
+   	id_estado int NOT NULL,
+   	id_grupo int NOT NULL,
+   	id_lead int NOT NULL,
+   	id_empresa int NOT NULL,
+   	FOREIGN KEY (id_estado) REFERENCES estado_actividad(id) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (id_grupo) REFERENCES grupo(id) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (id_lead) REFERENCES lead(id) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (id_empresa) REFERENCES empresa(id) ON DELETE CASCADE ON UPDATE CASCADE
+    );
+
+CREATE TABLE tarea (
+	 
+	id serial PRIMARY KEY,
+  	contenido varchar(60) NOT NULL, 
+  	finalizado varchar(60) NOT NULL, 
+   	id_grupo_usuario int NOT NULL,
+   	id_actividad int NOT NULL,
+   	FOREIGN KEY (id_grupo_usuario) REFERENCES grupo_usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (id_actividad) REFERENCES actividad(id) ON DELETE CASCADE ON UPDATE CASCADE	 
+    
+);
+
+---------------------------------------------------------------------
+---------------------------2.5 -----------------------
+---------------------------------------------------------------------
+CREATE TABLE sucursal (
+	id serial PRIMARY KEY,
+	nombre varchar(60),
+	id_empresa int NOT NULL,
+	FOREIGN KEY (id_empresa) REFERENCES Empresa(id) ON DELETE CASCADE ON UPDATE CASCADE,
+
+);
+
+CREATE TABLE categoria (
+	id serial PRIMARY KEY,
+	nombre varchar(60),
+	id_empresa int NOT NULL,
+	FOREIGN KEY (id_empresa) REFERENCES Empresa(id) ON DELETE CASCADE ON UPDATE CASCADE,
+
+);
+ 
+CREATE TABLE producto (
+	id serial PRIMARY KEY,
+  	nombre varchar(60) NOT NULL,
+  	imagen varchar(100),
+  	descripcion varchar(200),
+	stock decimal NOT NULL check(precio >= 0),
+	precio real NOT NULL,
+  	id_categoria int NOT NULL,
+  	id_sucursal int NOT NULL,
+  	FOREIGN KEY (id_categoria) REFERENCES categoria(id) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (id_sucursal) REFERENCES sucursal(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE calificacion (
+	id serial PRIMARY KEY,
+  	voto varchar(60) NOT NULL, 
+  	id_producto int NOT NULL,
+  	FOREIGN KEY (id_producto) REFERENCES producto(id) ON DELETE CASCADE ON UPDATE CASCADE,
+);
+CREATE TABLE comentarios (
+	id serial PRIMARY KEY,
+  	comentario varchar(60) NOT NULL, 
+  	id_producto int NOT NULL,
+  	id_usuario int NOT NULL,
+  	FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  	FOREIGN KEY (id_producto) REFERENCES producto(id) ON DELETE CASCADE ON UPDATE CASCADE,
+);
+
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+
+
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+
+
+
+
 -- hasta aqui coore bien
 --------------------------------------------------------------------
 INSERT INTO plan(nombre, precio, almacenamiento, ancho_de_banda, dominio, usuarios, soporte_por_correo, soporte_24x7)
@@ -123,13 +257,22 @@ GRANT USAGE, SELECT ON SEQUENCE nombre_de_secuencia TO tito;
 
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO tito;
 
+CREATE TABLE sucursal (
+	id serial PRIMARY KEY,
+	nombre varchar(60),
+	id_empresa int NOT NULL,
+	FOREIGN KEY (id_empresa) REFERENCES Empresa(id) ON DELETE CASCADE ON UPDATE CASCADE,
+
+);
 
 CREATE TABLE categoria (
 	id serial PRIMARY KEY,
-	nombre varchar(60)
+	nombre varchar(60),
+	id_empresa int NOT NULL,
+	FOREIGN KEY (id_empresa) REFERENCES Empresa(id) ON DELETE CASCADE ON UPDATE CASCADE,
+
 );
  
-
 CREATE TABLE producto (
 	id serial PRIMARY KEY,
   	nombre varchar(60) NOT NULL,
@@ -138,13 +281,11 @@ CREATE TABLE producto (
 	stock decimal NOT NULL check(precio >= 0),
 	precio real NOT NULL,
   	id_categoria int NOT NULL,
-  	id_talla int NOT NULL,
   	id_sucursal int NOT NULL,
   	FOREIGN KEY (id_categoria) REFERENCES categoria(id) ON DELETE CASCADE ON UPDATE CASCADE,
-  	FOREIGN KEY (id_talla) REFERENCES talla(id) ON DELETE CASCADE ON UPDATE CASCADE,
-  	FOREIGN KEY (id_sucursal) REFERENCES sucursal(id) ON DELETE CASCADE ON UPDATE CASCADE
+   	FOREIGN KEY (id_sucursal) REFERENCES sucursal(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
+-----------------------------------------------------------------
 
 CREATE TABLE metodo_envio(
 	id serial PRIMARY KEY,

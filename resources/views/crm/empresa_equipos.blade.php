@@ -19,13 +19,13 @@
         <div class="content-page">
             <div id="content">
 
-                <x-content  >
+                <x-content >
 
                     <div class="row">
                         <div class="col-12">
                             <div class="card-box">
                            
-                            @livewire('leads.show')
+                            @livewire('equipos.show')
                             
                             </div>
                         </div>

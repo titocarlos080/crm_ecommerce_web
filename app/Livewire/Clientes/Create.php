@@ -40,7 +40,7 @@ class Create extends Component
                 'telefono' => 'nullable|numeric',
                 'password' => 'required|min:3',
             ]);
-           
+
 
             //code...
             $usuario = new Usuario();
@@ -53,7 +53,7 @@ class Create extends Component
             $usuario->id_rol = 4;
 
             $usuario->save();
-            
+
 
             if ($this->foto->isValid()) {
 
@@ -61,10 +61,10 @@ class Create extends Component
                 $nombreImagen = 'CLIENTE' . str_pad($usuario->id, STR_PAD_RIGHT) . '.' . $extensionImagen;
                 $rutaImagen = $this->foto->storeAs('public/imagenes/clientes', $nombreImagen);
                 $usuario->foto = Storage::url($rutaImagen);
-           
             }
             $usuario->save();
             $this->message_error = "cliente creado correctamente";
+            $this->reset(  'nombre', 'email', 'telefono', 'password','foto');
         } catch (\Throwable $th) {
             //throw $th;
             $this->message_error = " Ops. hubo un problema al crear cliente";

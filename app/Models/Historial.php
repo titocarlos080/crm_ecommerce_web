@@ -11,7 +11,7 @@ class Historial extends Model
     use HasFactory;
     public $timestamps = false;
     protected $table = 'historial';
-    public $fillable= ['id','descripcion','id_empresa'];
+    public $fillable= ['id','fecha' ,'descripcion','id_empresa'];
     public function empresa(): BelongsTo
     {
         return $this->belongsTo(Empresa::class, 'id_empresa');

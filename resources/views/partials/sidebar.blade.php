@@ -42,7 +42,7 @@
         <ul class="metismenu" id="side-menu">
 
             <li>
-                <a href="">
+                <a href="{{route('crm_empresa')}}">
                     <i class="fas fa-home"></i>
 
                     <span> CRM </span>
@@ -60,13 +60,13 @@
                         <a href="#"><i class="fas fa-money"></i> Mi flujo</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fas fa-tasks"></i> Mi Actividades</a>
+                        <a href="{{route('empresa_actividad')}}"><i class="fas fa-tasks"></i> Mi Actividades</a>
                     </li>
                     <li>
                         <a href="#"><i class="fas fa-money-bill-wave"></i> Mi presupuestos</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fas fa-users"></i> Equipos</a>
+                        <a href="{{route('empresa_equipos')}}"><i class="fas fa-users"></i> Equipos</a>
                     </li>
                     <li>
                         <a href="{{route('empresa_clientes')}}"><i class="fas fa-user"></i> Clientes</a>
@@ -74,7 +74,7 @@
                 </ul>
             </li>
             <li>
-                <a href="#">
+                <a href="{{route('clientes_potenciales')}}">
                     <i class="fas fa-user"></i>
                     <span>Clientes Potenciales</span>
                     <span class="menu-arrow"></span>

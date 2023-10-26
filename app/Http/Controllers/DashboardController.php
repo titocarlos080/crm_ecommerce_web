@@ -23,8 +23,19 @@ class DashboardController extends Controller
     {
         return dd('crm_productos');
     }
+    public function clientes_potenciales()
+    {
+        return view('crm.leads');
+    }
     public function crm_pedidos()
     {
         return dd('crm_pedidos');
+    }    public function crm_actividades()
+    {
+        return view('crm.actividad');
+    }
+    public function empresa_equipos()
+    {
+        return view('crm.empresa_equipos');
     }
 }

@@ -14,7 +14,7 @@ class Empresa extends Model
 
     public $timestamps = false;
     protected $table = 'empresa';
-    public $fillable = ['id', 'nombre', 'email', 'descripcion','id_plan'];
+    public $fillable = ['id', 'nombre', 'email', 'descripcion', 'id_plan'];
     public function plan(): BelongsTo
     {
         return $this->belongsTo(Plan::class, 'id_plan');
@@ -34,6 +34,14 @@ class Empresa extends Model
     public function direccion(): HasMany
     {
         return $this->hasMany(Direccion::class, 'id_empresa');
+    }
+    public function leads(): HasMany
+    {
+        return $this->hasMany(leads::class, 'id_empresa');
+    }
+    public function Actividad(): HasMany
+    {
+        return $this->hasMany(Actividad::class, 'id_empresa');
     }
 }
 /*CREATE TABLE empresa(

@@ -1,32 +1,16 @@
 <div>
 
 
-    <div class="col-md-3">
+    <div class="col-md-6">
         <div class="form-group">
             <button type="button" wire:click="cancelar" wire:loading.attr="disabled" class="btn btn-danger waves-effect m-l-5">
                 Cancelar
             </button>
-            <label for="roles" class="control-label">Roles</label>
-
-            <select class="form-control" wire:model="id_rol" name="rol" id="rol">
-                <option value="">Seleccionar</option>
-                @php
-                $usuario = auth()->user(); // Obtener el usuario autenticado
-                $empresa = $usuario->empresa; // Acceder a la propiedad "empresa" del usuario
-                $rol = $usuario->rol; // Acceder a la propiedad "rol" del usuario
-                @endphp
-
-                @foreach ($roles as $rol)
-                @if($rol->id > 2)
-                <option value="{{ $rol->id }}">{{ $rol->nombre }}</option>
-                @endif
-                @endforeach
-            </select>
-        </div>
+            
 
         <div class="card">
             <div class="card-body p-4">
-                <h5 class="auth-title">PANEL DE REGISTO</h5>
+                <h5 class="auth-title">NUEVO COLABORADOR REGISTO</h5>
                 <form>
                     @csrf
                     <div class="form-group mb-3">
@@ -40,9 +24,7 @@
                     <div class="form-group mb-3">
                         <label for="email">Correo Electrónico:</label>
                         <input class="form-control" wire:model='email' name="email" type="email" id="email" placeholder="evomorales@gmail.com">
-                        @error('email')
-                        <span class="error text-danger">* {{ $message }}</span>
-                        @enderror
+
                     </div>
                     <div class="form-group mb-1">
                         <label for="password">Contraseña:</label>
@@ -56,11 +38,17 @@
 
                     <div class="form-group mb-1">
                         <label for="foto">Foto:</label>
-                        <input class="form-control" wire:model='foto' name="foto" type="file" id="foto">
-
+                        <input class="btn" wire:model='foto' name="foto" type="file" id="foto">
+                        @if($foto)
+                        <img src="{{ $foto->temporaryUrl() }}" width="64" height="64" alt="" srcset="">
+                         @endif
                     </div>
+                     
                     <div class="form-group mb-0 text-center">
-                        <button wire:click='guadarEmpleado' class="btn btn-dark btn-block" type="submit"> REGISTRAR </button>
+
+                        <button wire:click='cancelar' class="btn btn-danger " wire:loading.attr="disabled" wire:target="foto" type="submit"> cancelar </button>
+
+                        <button wire:click='guadarEmpleado' class="btn btn-dark  " wire:loading.attr="disabled" wire:target="foto" type="submit"> REGISTRAR </button>
                     </div>
 
                 </form>

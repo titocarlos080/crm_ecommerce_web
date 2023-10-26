@@ -7,15 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Queja extends Model
+class Grupo extends Model
 {
     use HasFactory;
+    protected $table='grupo';
+    protected $fillable= ['id','nombre','id_empresa'];
     public $timestamps = false;
-    protected $table = 'queja';
-    public $fillable= ['id','descripcion','id_empresa'];
-    
-    public function empresa(): BelongsTo
+
+     public function grupo_usuario(): HasMany
+    {
+        return $this->hasMany(GrupoUsuario::class, 'id_grupo');
+    }
+
+     public function empresa(): BelongsTo
     {
         return $this->belongsTo(Empresa::class, 'id_empresa');
     }
+    
 }

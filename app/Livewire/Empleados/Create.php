@@ -5,6 +5,7 @@ namespace App\Livewire\Empleados;
 use App\Models\Rol;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -23,6 +24,8 @@ class Create extends Component
     public  $telefono;
     public  $password;
     public  $foto;
+    public  $mensaje;
+    public  $estado_error;
 
     public function mount()
     {
@@ -32,28 +35,37 @@ class Create extends Component
 
     public function guadarEmpleado()
     {
+        try {
+            DB::beginTransaction();
+            //code...
+            $usuario = new Usuario();
+            $usuario->nombre = $this->nombre;
+            $usuario->email = $this->email;
+            $usuario->telefono = $this->telefono;
+            $usuario->password = bcrypt($this->password);
+            $usuario->id_empresa = $this->id_empresa;
+            $usuario->id_rol = 3;
+            $usuario->save();
+            // Validar y guardar la imagen
+            if (!empty($this->foto)) {
+                $extensionImagen = $this->foto->getClientOriginalExtension() || '';
+                $nombreImagen = 'EMPLEADO' . str_pad($usuario->id, STR_PAD_RIGHT) . '.' . $extensionImagen;
+                $rutaImagen = $this->foto->storeAs('public/imagenes/empleados', $nombreImagen);
+                $usuario->update(['foto' => Storage::url($rutaImagen)]);
+            }
+            
+            DB::commit();
+            $this->mensaje = "Empleado creado correctamente";
+            $this->estado_error = false;
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollBack();
+            $this->mensaje = "Ups Ocurrio un error.";
 
-        $usuario = new Usuario();
-        $usuario->nombre = $this->nombre;
-        $usuario->email = $this->email;
-        $usuario->telefono = $this->telefono;
-        $usuario->password = bcrypt($this->password);
-        $usuario->id_empresa = $this->id_empresa;
-        $usuario->id_rol = $this->id_rol;
-        $usuario->save();
-        // Validar y guardar la imagen
-        if ($this->foto->isValid()) {
-            $extensionImagen = $this->foto->getClientOriginalExtension() || '';
-            $nombreImagen = 'EMPLEADO' . str_pad($usuario->id, STR_PAD_RIGHT) . '.' . $extensionImagen;
-            $rutaImagen = $this->foto->storeAs('public/imagenes/empleados', $nombreImagen);
-            $usuario->foto = Storage::url($rutaImagen);
-           
+            $this->estado_error = true;
         }
-        $usuario->save();
-        $this->redirect('/crm/empleados');
-
     }
-
+   
     public function cancelar()
     {
         $this->dispatch('cerrar-vista_crear');

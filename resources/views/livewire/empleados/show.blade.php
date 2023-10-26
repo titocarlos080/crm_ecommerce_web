@@ -18,14 +18,14 @@
                                         <th>Nombre</th>
                                         <th>email</th>
                                         <th>telefono</th>
-                                        <th>Rol</th>
+                             
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @if($empleados)
                                     @foreach($empleados as $empleado )
-                                
+
                                     <tr>
                                         <td style="width: 36px;">
                                             <img src="{{$empleado->foto}}" alt="emp-img" class="rounded-circle avatar-sm">
@@ -43,20 +43,10 @@
                                             <h3> {{$empleado->telefono}}</h3>
 
                                         </td>
+                          
                                         <td>
-                                            <h3> {{$empleado->rol->nombre}}</h3>
-
-                                        </td>
-                                        <td>
-                                            @if($empleado->rol->nombre === 'Empresa')
-                                            <a hidden wire:click='editarEmpleado({{$empleado->id}})' class="btn btn-xs btn-light"><i class="mdi mdi-plus"></i>Editar </a>
-                                            <a hidden wire:clik='eliminarEmpleado({{$empleado->id}})' class="btn btn-xs btn-danger"><i class="mdi mdi-minus"></i>Eliminar</a>
-                                            No Accion
-                                            @else
-                                            <a wire:click='editarEmpleado({{$empleado->id}})' class="btn btn-xs btn-light"><i class="mdi mdi-plus"></i>Editar </a>
-                                            <a wire:clik='eliminarEmpleado({{$empleado->id}})' class="btn btn-xs btn-danger"><i class="mdi mdi-minus"></i>Eliminar</a>
-                                            @endif
-
+                                            <a wire:click='editar_empleado({{$empleado->id}})' class="btn btn-xs btn-light"><i class="fa fa-edit"></i>Editar </a>
+                                            <a wire:click='eliminar_empleado({{$empleado->id}})' class="btn btn-xs btn-danger"><i class="mdi mdi-minus"></i>Eliminar</a>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -71,6 +61,57 @@
                 </div> <!-- end col -->
 
             </div>
+            @if($open_edit)
+            <div class="fixed-top inset-0 top-0 left-0 ">
+                <div class="modal-dialog ">
+                    <div class="modal-content bg-gray-500">
+                        <div class="modal-header">
+                            <h4 class="modal-title">EDITAR EMPLEADO</h4>
+                            <button wire:click="$set('open_edit',false)" type="button" class="close btn-danger" data-dismiss="modal" aria-hidden="true">X</button>
+                        </div>
+                        <div class="modal-body bg-emerald-500">
 
+                            <div class="row">
+                                <div class="col-md-12">
+
+
+                                    <div class="form-group mb-3">
+                                        <label for="nombre">Nombre:</label>
+                                        <input wire:model="userEdit.nombre" class="form-control" name="ciudad" type="text">
+
+
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="email">Correo:</label>
+                                        <input wire:model="userEdit.email" class="form-control" name="calle" type="email">
+
+                                        <label for="email">Numero:</label>
+                                        <input wire:model="userEdit.telefono" class="form-control" name="numero" type="number" id="tel">
+
+                                        <label for="email">contraseña:</label>
+                                        <input wire:model="pas" class="form-control" name="numero" type="text" id="tel">
+
+                                        <div class="form-group mb-1">
+                                            <label for="foto">Foto:</label>
+                                            <input class="form-control" wire:model='foto' name="foto" type="file" id="foto">
+
+                                        </div>
+
+                                    </div>
+                                    <button wire:click="actualizar_empleado()" class="btn btn-success"> Actualizar Cliente</button>
+
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            @endif
             @endif
 </div>

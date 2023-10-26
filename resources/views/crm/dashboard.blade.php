@@ -22,7 +22,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card-box">
-                            GESTION EMPRESARIAL NOMBRE EMPRESA
+                            @livewire('dashboard.show')
                             </div>
                         </div>
                     </div>

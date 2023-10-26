@@ -40,6 +40,10 @@ Route::middleware('auth.empresa')->group(function () {
     Route::get('/empresa/clientes', [DashboardController::class, 'crm_clientes'])->name('empresa_clientes');
     Route::get('/empresa/gestionar_productos', [DashboardController::class, 'crm_productos'])->name('empresa_gestionar_productos');
     Route::get('/empresa/gestionar_pedidos', [DashboardController::class, 'crm_pedidos'])->name('empresa_gestionar_pedidos');
+    Route::get('/crm/clientes_potenciales', [DashboardController::class, 'clientes_potenciales'])->name('clientes_potenciales');
+    Route::get('/crm/empresa_equipos', [DashboardController::class, 'empresa_equipos'])->name('empresa_equipos');
+    Route::get('/crm/crm_actividades', [DashboardController::class, 'crm_actividades'])->name('empresa_actividad');
+
 });
 Route::middleware('auth.empleado')->group(function () {
     Route::get('/crm', [DashboardController::class, 'crm_vista'])->name('crm_dashboard');
@@ -47,6 +51,8 @@ Route::middleware('auth.empleado')->group(function () {
     Route::get('/crm/clientes', [DashboardController::class, 'crm_clientes'])->name('crm_clientes');
     Route::get('/crm/gestionar_productos', [DashboardController::class, 'crm_productos'])->name('crm_gestionar_productos');
     Route::get('/crm/gestionar_pedidos', [DashboardController::class, 'crm_pedidos'])->name('crm_gestionar_pedidos');
+    Route::get('/crm/cclientes_potenciales', [DashboardController::class, 'cclientes_potenciales'])->name('cclientes_potenciales');
+
 });
 Route::middleware('auth.admin')->group(function () {
     Route::get('/admin', [AdminController::class, 'admin_vista'])->name('admin_vista');
