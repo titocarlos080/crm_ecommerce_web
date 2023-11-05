@@ -57,7 +57,7 @@
                 </a>
                 <ul class="nav-second-level" aria-expanded="false">
                     <li>
-                        <a href="#"><i class="fas fa-money"></i> Mi flujo</a>
+                        <a href="{{route('flujo_trabajo')}}"><i class="fas fa-tasks"></i> Mi flujo</a>
                     </li>
                     <li>
                         <a href="{{route('empresa_actividad')}}"><i class="fas fa-tasks"></i> Mi Actividades</a>
@@ -104,7 +104,8 @@
                 <ul class="nav-second-level" aria-expanded="false">
                     <li>
                         <a href="#"><i class="fas fa-cogs"></i> Ajustes</a>
-                    </li><li>
+                    </li>
+                    <li>
                         <a href="{{route('empresa_empleados')}}"><i class="fas fa-user"></i> Empleados</a>
                     </li>
                     <li>
@@ -123,13 +124,19 @@
                 </a>
                 <ul class="nav-second-level" aria-expanded="false">
                     <li>
+                        <a href="{{route('sucursales')}}"><i class="fas fa-store"></i> Sucursales</a>
+                    </li>
+                    <li>
                         <a href="#"><i class="fas fa-box"></i> Inventarios</a>
                         <ul class="nav-third-level" aria-expanded="false">
                             <li>
-                                <a href="#"><i class="fas fa-tags"></i> Categoria</a>
+                                <a href="{{route('categorias')}}"><i class="fas fa-tags"></i> Categoria</a>
+                            </li>  <li>
+                                <a href="{{route('productos')}}"><i class="fas fa-cube"></i> Productos</a>
                             </li>
                         </ul>
                     </li>
+
                     <li>
                         <a href="#"><i class="fas fa-shopping-basket"></i> Pedidos</a>
                     </li>

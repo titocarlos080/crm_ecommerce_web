@@ -14,11 +14,11 @@ class EstadoActividad extends Model
     public $timestamps = false;
 
     protected $fillable = ['id', 'nombre', 'id_empresa'];
-    function actividad(): HasMany
+    public function actividad(): HasMany
     {
         return $this->hasMany(Actividad::class, 'id_estado');
     }
-    function empresa(): BelongsTo
+    public function empresa(): BelongsTo
     {
         return $this->belongsTo(Empresa::class, 'id_empresa');
     }

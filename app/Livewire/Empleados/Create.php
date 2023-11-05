@@ -48,7 +48,7 @@ class Create extends Component
             $usuario->save();
             // Validar y guardar la imagen
             if (!empty($this->foto)) {
-                $extensionImagen = $this->foto->getClientOriginalExtension() || '';
+                $extensionImagen = $this->foto->getClientOriginalExtension() ;
                 $nombreImagen = 'EMPLEADO' . str_pad($usuario->id, STR_PAD_RIGHT) . '.' . $extensionImagen;
                 $rutaImagen = $this->foto->storeAs('public/imagenes/empleados', $nombreImagen);
                 $usuario->update(['foto' => Storage::url($rutaImagen)]);

@@ -123,7 +123,7 @@ class Show extends Component
             ]);
             if (!empty($this->logo)) {
                 Storage::delete($plan->logo);
-                $extensionImagen = $this->logo->getClientOriginalExtension() || '';
+                $extensionImagen = $this->logo->getClientOriginalExtension();
                 $nombreImagen = 'PLAN' . str_pad($plan->id, STR_PAD_RIGHT) . '.' . $extensionImagen;
                 $rutaImagen = $this->logo->storeAs('public/imagenes/planes', $nombreImagen);
                 $plan->update(['logo' => Storage::url($rutaImagen)]);

@@ -15,15 +15,15 @@ class GrupoUsuario extends Model
     protected $fillable = ['id', 'id_usuario', 'id_grupo'];
     public $timestamps = false;
 
-    function usuario(): BelongsTo
+    public function usuario(): BelongsTo
     {
         return $this->belongsTo(Usuario::class, 'id_usuario');
     }
-    function grupo(): BelongsTo
+    public  function grupo(): BelongsTo
     {
         return $this->belongsTo(Grupo::class, 'id_grupo');
     }
-     function tarea(): HasMany
+    public function tarea(): HasMany
     {
         return $this->hasMany(Tarea::class, 'id_grupo_usuario');
     }

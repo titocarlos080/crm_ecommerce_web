@@ -15,8 +15,31 @@
 
     @livewireStyles
 </head>
+<style>
+    .preloader {
+         
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100px;
+        height: 100px;
+        margin: -30px 0 0 -30px;
+    
+        animation: spin .7s linear infinite;
+    }
 
-<body class=" bg-soft-dark">
+
+    .preloader img {
+        width: 100%;
+     }
+</style>
+
+<body class=" bg-soft-dark" >
+    <div class="preloader-overlay   "  id="preloader">
+        <div class="preloader">
+            <img src="{{ asset('assets/images/crm.png') }}" alt="Logo de la empresa">
+        </div>
+    </div>
     {{ $slot }}
 
     @livewireScripts
@@ -28,6 +51,9 @@
 
     @stack('js')
     <script>
+        window.addEventListener('load', () => {
+            document.getElementById('preloader').style.display = 'none'
+        })
         const passwordInput = document.getElementById('password');
         const showPasswordButton = document.getElementById('showPassword');
 

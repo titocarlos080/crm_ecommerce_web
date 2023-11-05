@@ -20,6 +20,7 @@ CREATE TABLE empresa(
   nombre VARCHAR(100) NOT NULL,
   email VARCHAR(100) NOT NULL,
   descripcion VARCHAR(100) NOT NULL,
+  logo VARCHAR(300),
   id_plan INT NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY(id_plan) REFERENCES plan(id) 
@@ -64,11 +65,20 @@ CREATE TABLE usuario(
 	foto varchar(300),
  	telefono varchar(30), 
 	password varchar(300) NOT NULL,
+	password_token varchar(60),
+	password_expiracion TIMESTAMP ,
 	id_rol int NOT NULL,
 	id_empresa int NOT NULL,
 	FOREIGN KEY (id_rol) REFERENCES rol(id),  
 	FOREIGN KEY (id_empresa) REFERENCES empresa(id) ON DELETE CASCADE ON UPDATE CASCADE  
 );
+CREATE TABLE favorito_link(
+	id serial NOT NULL PRIMARY KEY,
+	nombre_link varchar(200) , 
+	id_usuario int NOT NULL,
+	FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 CREATE TABLE direccion(
 	id serial NOT NULL PRIMARY KEY,
 	ciudad varchar(60) ,
@@ -158,15 +168,16 @@ CREATE TABLE sucursal (
 	id serial PRIMARY KEY,
 	nombre varchar(60),
 	id_empresa int NOT NULL,
-	FOREIGN KEY (id_empresa) REFERENCES Empresa(id) ON DELETE CASCADE ON UPDATE CASCADE,
-
+	FOREIGN KEY (id_empresa) REFERENCES empresa(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE categoria (
 	id serial PRIMARY KEY,
 	nombre varchar(60),
+	id_sucursal int NOT NULL,
 	id_empresa int NOT NULL,
-	FOREIGN KEY (id_empresa) REFERENCES Empresa(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (id_sucursal) REFERENCES sucursal(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (id_empresa) REFERENCES empresa(id) ON DELETE CASCADE ON UPDATE CASCADE
 
 );
  
@@ -175,31 +186,57 @@ CREATE TABLE producto (
   	nombre varchar(60) NOT NULL,
   	imagen varchar(100),
   	descripcion varchar(200),
-	stock decimal NOT NULL check(precio >= 0),
+	stock decimal NOT NULL check(stock >= 0),
+	costo real NOT NULL,
 	precio real NOT NULL,
   	id_categoria int NOT NULL,
   	id_sucursal int NOT NULL,
+	id_empresa int NOT NULL,
   	FOREIGN KEY (id_categoria) REFERENCES categoria(id) ON DELETE CASCADE ON UPDATE CASCADE,
-   	FOREIGN KEY (id_sucursal) REFERENCES sucursal(id) ON DELETE CASCADE ON UPDATE CASCADE
+   	FOREIGN KEY (id_sucursal) REFERENCES sucursal(id) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (id_empresa) REFERENCES empresa(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE TABLE calificacion (
 	id serial PRIMARY KEY,
   	voto varchar(60) NOT NULL, 
   	id_producto int NOT NULL,
+	id_empresa int NOT NULL,
   	FOREIGN KEY (id_producto) REFERENCES producto(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (id_empresa) REFERENCES empresa(id) ON DELETE CASCADE ON UPDATE CASCADE
+
 );
 CREATE TABLE comentarios (
 	id serial PRIMARY KEY,
   	comentario varchar(60) NOT NULL, 
-  	id_producto int NOT NULL,
   	id_usuario int NOT NULL,
+  	id_producto int NOT NULL,
+	id_empresa int NOT NULL,
   	FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
   	FOREIGN KEY (id_producto) REFERENCES producto(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (id_empresa) REFERENCES empresa(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -----------------------------------------------------------------
 -----------------------------------------------------------------
-
+CREATE TABLE presupuesto (
+	id serial PRIMARY KEY,
+	nombre varchar(60),
+	id_empresa int NOT NULL,
+	id_usuario int NOT NULL,
+	FOREIGN KEY (id_empresa) REFERENCES empresa(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE detalle_presupuesto (
+	id serial,
+	precio_parcial varchar(60),
+	id_empresa int NOT NULL,
+	id_usuario int NOT NULL,
+	id_producto int NOT NULL,
+	PRIMARY KEY(id_usuario,id_producto),
+	FOREIGN KEY (id_producto) REFERENCES producto(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (id_empresa) REFERENCES empresa(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
 --------------------------------------------------------------------
 --------------------------------------------------------------------
@@ -279,6 +316,7 @@ CREATE TABLE producto (
   	imagen varchar(100),
   	descripcion varchar(200),
 	stock decimal NOT NULL check(precio >= 0),
+	costo real NOT NULL,
 	precio real NOT NULL,
   	id_categoria int NOT NULL,
   	id_sucursal int NOT NULL,
@@ -339,3 +377,53 @@ CREATE TABLE detalle_pedido(
  	FOREIGN KEY (id_pedido) REFERENCES pedido(id)  
 	
 );
+
+/*
+php artisan make:migration create_plan_table
+ 
+php artisan make:migration create_empresa_table
+ 
+php artisan make:migration create_historial_table
+ 
+php artisan make:migration create_queja_table
+ 
+php artisan make:migration create_rol_table
+ 
+php artisan make:migration create_usuario_table
+ 
+php artisan make:migration create_favorito_link_table
+ 
+php artisan make:migration create_direccion_table
+ 
+php artisan make:migration create_permiso_table
+ 
+php artisan make:migration create_rol_permiso_table
+ 
+php artisan make:migration create_estado_actividad_table
+ 
+php artisan make:migration create_grupo_table
+ 
+php artisan make:migration create_grupo_usuario_table
+ 
+php artisan make:migration create_lead_table
+ 
+php artisan make:migration create_actividad_table
+ 
+php artisan make:migration create_tarea_table
+ 
+php artisan make:migration create_sucursal_table
+ 
+php artisan make:migration create_categoria_table
+ 
+php artisan make:migration create_producto_table
+ 
+php artisan make:migration create_calificacion_table
+ 
+php artisan make:migration create_comentarios_table
+ 
+php artisan make:migration create_presupuesto_table
+ 
+php artisan make:migration create_detalle_presupuesto_table
+*/
+
+

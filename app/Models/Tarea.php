@@ -14,11 +14,11 @@ class Tarea extends Model
     public $timestamps = false;
 
     protected $fillable = ['id', 'contenido','finalizado' ,'id_grupo_usuario', 'id_actividad'];
-    function activadad(): BelongsTo
+    public function activadad(): BelongsTo
     {
         return $this->belongsTo(Actividad::class, 'id_actividad');
     }
-    function grupo_usuario(): BelongsTo
+    public function grupo_usuario(): BelongsTo
     {
         return $this->belongsTo(GrupoUsuario::class, 'id_grupo_usuario');
     }

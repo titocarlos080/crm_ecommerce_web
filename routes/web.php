@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegistroController;
 use App\Http\Controllers\ServicioController;
@@ -27,12 +28,20 @@ Route::middleware('guest')->group(
         });
         //  http://127.0.0.1:8000/probar?id=2
 
+        Route::get('/send-email', [EmailController::class, 'index']);
         Route::get('/', [ServicioController::class, 'index'])->name('index');
         Route::get('/login', [LoginController::class, 'login'])->name('login');
         Route::post('/login', [LoginController::class, 'authenticate']);
         Route::get('/registro', [RegistroController::class, 'registro'])->name('registro');
         Route::post('/registrar', [RegistroController::class, 'registrar'])->name('register');
-    }
+        Route::get('/contrasena_ovidada', [LoginController::class, 'contrasena_ovidada'])->name('contrasena_ovidada');
+        Route::post('/password_email', [LoginController::class, 'password_email'])->name('password_email');
+        Route::get('/password_resset', [LoginController::class, 'password_resset'])->name('password_resset');
+        Route::get('/new_password/{token}', [LoginController::class, 'new_password'])->name('new_password');
+        Route::post('/save_new_password', [LoginController::class, 'save_new_password'])->name('save_new_password');
+    
+       
+    }    
 );
 Route::middleware('auth.empresa')->group(function () {
     Route::get('/empresa', [DashboardController::class, 'crm_vista'])->name('crm_empresa');
@@ -43,6 +52,11 @@ Route::middleware('auth.empresa')->group(function () {
     Route::get('/crm/clientes_potenciales', [DashboardController::class, 'clientes_potenciales'])->name('clientes_potenciales');
     Route::get('/crm/empresa_equipos', [DashboardController::class, 'empresa_equipos'])->name('empresa_equipos');
     Route::get('/crm/crm_actividades', [DashboardController::class, 'crm_actividades'])->name('empresa_actividad');
+    Route::get('/crm/flujo_trabajo', [DashboardController::class, 'flujo_trabajo'])->name('flujo_trabajo');
+    Route::get('/crm/categorias', [DashboardController::class, 'categorias'])->name('categorias');
+    Route::get('/crm/productos', [DashboardController::class, 'productos'])->name('productos');
+    Route::get('/crm/sucursales', [DashboardController::class, 'sucursales'])->name('sucursales');
+    Route::get('/crm/productos', [DashboardController::class, 'productos'])->name('productos');
 
 });
 Route::middleware('auth.empleado')->group(function () {

@@ -1,20 +1,21 @@
 <!-- Topbar Start -->
 <div class="navbar-custom bg-opacity-100">
+@php
+            $usuario = auth()->user(); // Obtener el usuario autenticado
+            $empresa = $usuario->empresa; // Acceder a la propiedad "empresa" del usuario
+            $rol = $usuario->rol; // Acceder a la propiedad "rol" del usuario
+            @endphp
 
     <ul class="list-unstyled topnav-menu float-right mb-0">
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                <img src="" alt="user-image" class="rounded-circle">
+              
+                <img src="{{ $usuario->foto}}" alt="user-image" class="rounded-circle">
                 <span class="pro-user-name ml-1"> <i class="la la-angle-down"></i>
 
                 </span>
             </a>
-            @php
-                $usuario  = auth()->user(); // Obtener el usuario autenticado
-                $empresa = $usuario->empresa; // Acceder a la propiedad "empresa" del usuario
-                $rol = $usuario->rol; // Acceder a la propiedad "rol" del usuario
-                @endphp
-
+           
             <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                 <!-- item-->
                 <div class="dropdown-item noti-title">
@@ -59,18 +60,16 @@
     <div class="logo-box">
         <a href="#" class="logo text-center mt-1">
             <span class="logo-lg">
-                <!-- <img src="" alt="img" height="50"> -->
+                <img src="{{$empresa->logo}} " alt="img" height="50">
 
                 <!-- <span class="logo-lg-text-light">Xeria</span> -->
-              
-                 <h2 >{{$empresa->nombre}} </h2>
-                {{$rol->nombre}}  
+
 
             </span>
-             <span class="logo-sm">
-                <span class="logo-sm-text-dark">CRM</span>
-                <!-- <img src="#" alt="df" height="20"> -->
-                
+            <span class="logo-sm">
+                 
+                <img src="{{$empresa->logo}} " alt="df" height="20">
+
 
             </span>
         </a>

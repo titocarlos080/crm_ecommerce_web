@@ -11,8 +11,8 @@ class Usuario extends Authenticatable
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'usuario';
-    protected $fillable = ['id', 'nombre', 'email', 'foto', 'telefono', 'password', 'id_rol', 'id_empresa'];
+    protected $table = 'usuario';   
+    protected $fillable = ['id', 'nombre', 'email', 'foto', 'telefono', 'password', 'id_rol', 'id_empresa','password_token','password_expiracion'];
 
     protected $casts = [
         'email_verified_at' => 'datetime',

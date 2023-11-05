@@ -37,7 +37,7 @@
 
                             <div class="form-group">
                                 <div class="col-12 text-right">
-                                    <p> <a href="#" class="text-muted ml-1">¿Olvidaste tu contraseña?</a></p>
+                                    <p> <a href="{{route('contrasena_ovidada')}}" class="text-muted ml-1">¿Olvidaste tu contraseña?</a></p>
                                 </div>
                             </div>
 

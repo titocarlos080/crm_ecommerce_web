@@ -30,7 +30,8 @@ class DashboardController extends Controller
     public function crm_pedidos()
     {
         return dd('crm_pedidos');
-    }    public function crm_actividades()
+    }
+    public function crm_actividades()
     {
         return view('crm.actividad');
     }
@@ -38,4 +39,21 @@ class DashboardController extends Controller
     {
         return view('crm.empresa_equipos');
     }
+    public function flujo_trabajo()
+    {
+        return view('crm.flujo_trabajo');
+    }
+    public function categorias()
+    {
+        return view('crm.categorias');
+    }
+    public function productos()
+    {
+        return view('crm.productos');
+    }
+    public function sucursales()
+    {
+        return view('crm.sucursales');
+    }
+     
 }
