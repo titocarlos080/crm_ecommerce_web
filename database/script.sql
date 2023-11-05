@@ -277,7 +277,7 @@ VALUES
 
 
 ----------contraseña=12345----------------------------------------------------------
-GRANT ALL PRIVILEGES ON DATABASE parcial1 TO tito;
+GRANT ALL PRIVILEGES ON DATABASE proyectosi2 TO tito;
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO tito;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO tito;
 

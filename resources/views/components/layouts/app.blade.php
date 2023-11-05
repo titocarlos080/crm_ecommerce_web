@@ -37,7 +37,7 @@
 <body class=" bg-soft-dark" >
     <div class="preloader-overlay   "  id="preloader">
         <div class="preloader">
-            <img src="{{ asset('assets/images/crm.png') }}" alt="Logo de la empresa">
+            <img src="{{ asset('assets/images/plugins/loading.png') }}" alt="Logo de la empresa">
         </div>
     </div>
     {{ $slot }}
