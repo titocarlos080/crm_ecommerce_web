@@ -55,7 +55,7 @@ class Create extends Component
             $usuario->save();
 
 
-            if ($this->foto->isValid()) {
+            if (!empty($this->foto)) {
 
                 $extensionImagen = $this->foto->getClientOriginalExtension();
                 $nombreImagen = 'CLIENTE' . str_pad($usuario->id, STR_PAD_RIGHT) . '.' . $extensionImagen;

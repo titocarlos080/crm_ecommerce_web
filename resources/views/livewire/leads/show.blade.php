@@ -69,8 +69,9 @@
 
                                 <label for="email">Cliente:</label>
                                 <select wire:model="cliente_seleccionado">
+                                    <option value="">-----seleccionar---------</option>
                                     @foreach($clientes as $cliente)
-                                    <option class="form-control" value="{{$cliente->id}}"> {{$cliente->nombre}}</option>
+                                    <option  value="{{$cliente->id}}"> {{$cliente->nombre}}</option>
                                     @endforeach
                                 </select>
 
@@ -163,7 +164,7 @@
 
                                 <label for="estado">Estado de Actividad:</label>
                                 <select wire:model="estado_seleccionado" class=" mt-1">
-                                    <option disabled class="form-control" value=" ">---------- Seleccionar-----------</option>
+                                    <option   class="form-control" value=" ">---------- Seleccionar-----------</option>
 
                                     @foreach($estado_actividades as $estado_actividad)
                                     <option class="form-control" value="{{$estado_actividad->id}}"> {{$estado_actividad->nombre}}</option>
@@ -171,7 +172,7 @@
                                 </select><br>
                                 <label for="grupo">Designar grupo:</label>
                                 <select wire:model="id_grupo_seleccionado" class=" mt-1">
-                                    <option disabled class="form-control" value=" ">---------- Seleccionar-----------</option>
+                                    <option   class="form-control" value=" ">---------- Seleccionar-----------</option>
 
                                     @foreach($grupos as $grupo)
                                     <option class="form-control" value="{{$grupo->id}}"> {{$grupo->nombre}}</option>
