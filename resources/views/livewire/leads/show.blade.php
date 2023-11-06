@@ -31,7 +31,7 @@
 
                             </td>
                             <td>
-                                <h3> {{$lead->telefono}}</h3>
+                                <h3> {{$lead->ganancia_esperada}}</h3>
 
                             </td>
 
