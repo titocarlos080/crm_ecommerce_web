@@ -4,6 +4,7 @@ namespace App\Livewire\Actividad;
 
 use App\Models\Actividad;
 use App\Models\EstadoActividad;
+use App\Models\Tarea;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Rule;
@@ -21,6 +22,9 @@ class Show extends Component
     public $encargados;
     public $actividades;
     public $empresa_id;
+    public $contenido;
+    public $finalizado=false;
+
     public function crear_nueva_actividad()
     {
     }
@@ -43,10 +47,22 @@ class Show extends Component
         $estado->id_empresa = $this->empresa_id;
         $estado->save();
         $this->reset('estado_nombre');
+    } public function crear_nueva_tarea()
+    { 
+        $tarea= new Tarea();
+        
+        $tarea->contenido= $this->contenido;;
+        $tarea->finalizado=$this->finalizado;;
+        $tarea->id_grupo_usuario=$this->encargado_tarea;
+        $tarea->id_actividad=$this->actividad_tarea;
+        
+       $tarea->save();
+      $this->reset('contenido','finalizado','encargado_tarea','actividad_tarea');
+
     }
 
 
-
+     
 
 
 
