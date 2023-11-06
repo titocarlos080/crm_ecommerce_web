@@ -74,7 +74,7 @@
                                     {{$nombre}}
 
                                     <div class="d-flex align-content-center">
-                                        <img src="{{$imagen}}" alt="img">
+                                        <img width="64px" height="64px" src="{{$imagen}}" alt="img">
 
                                     </div>
                                     <span>Descripcion</span>
