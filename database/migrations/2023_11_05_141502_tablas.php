@@ -75,6 +75,7 @@ return new class extends Migration
             $table->string('telefono', 30)->nullable();
             $table->string('password', 300);
             $table->string('password_token', 60)->nullable();
+            $table->string('ip_add', 20)->nullable();
             $table->timestamp('password_expiracion')->nullable();
             $table->unsignedBigInteger('id_rol');
             $table->unsignedBigInteger('id_empresa');

@@ -64,6 +64,7 @@ CREATE TABLE usuario(
 	email varchar(60) ,
 	foto varchar(300),
  	telefono varchar(30), 
+ 	ip_add varchar(30), 
 	password varchar(300) NOT NULL,
 	password_token varchar(60),
 	password_expiracion TIMESTAMP ,

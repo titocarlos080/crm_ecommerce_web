@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+ 
 use Illuminate\Support\Str;
 use App\Models\Usuario;
 use Illuminate\Http\RedirectResponse;
@@ -21,9 +21,12 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function authenticate(Request $request): RedirectResponse
-    {
-
+    public function authenticate(Request $request) //: RedirectResponse
+    { 
+         
+    
+       
+      
         $credencial = $request->validate(['email' => ['required', 'email'], 'password' => ['required']]);
 
         $credenciales = $request->validate([
@@ -33,26 +36,34 @@ class LoginController extends Controller
         if (Auth::attempt($credenciales)) {
             $request->session()->regenerate();
             $usuario = Auth::user();
+            $user= Usuario::where('id',$usuario->id)->first();
+            $user->update(['ip_add'=> $request->ip()]);
             $rol = $usuario->rol->nombre;
 
             if ($rol === 'Administrador') {
+                logController::registrar_bitacora( 'inicio sesion:',$request->ip(), now()->format('Y-m-d H:i:s'));
                 return redirect()->route('admin_vista');
             }
             if ($rol === 'Empresa') {
+
+                logController::registrar_bitacora( 'inicio sesion:',$request->ip(), now()->format('Y-m-d H:i:s') );
                 return redirect()->route('crm_empresa');
             }
             if ($rol === 'Empleado') {
+                logController::registrar_bitacora( 'inicio sesion:',$request->ip(), now()->format('Y-m-d H:i:s'));
                 return redirect()->route('crm_dashboard');
+
             }
+
             return redirect('/');
         }
-        return back()->with('error', 'Credenciales incorrectas');
+        return back()->with('error', 'Credenciales incorrectas'); 
     }
     public function contrasena_ovidada()
     {
         return view('auth.passwords.email');
     }
-   
+
     public function password_email(Request $request)
     {        // funcion para enviar un link si el email es valido
         try {
@@ -71,10 +82,10 @@ class LoginController extends Controller
             $user->password_expiracion = now()->addMinutes(5);
             $user->save();
             Mail::to($user->email)->send(new EmailRessetPassword($data));
-            
+
             return  back()->with('enviado', 'Se envio un email. por favor ver la bandeja de su email');
         } catch (\Throwable $th) {
-           
+
             return  back()->with('error_email', 'No se encontro tu email.');
         }
     }
@@ -97,7 +108,8 @@ class LoginController extends Controller
         return 'Este link expiro ..!!';
     }
     public function save_new_password(Request $request)
-    {     try {
+    {
+        try {
             //code...
             $request->validate(
                 [
@@ -108,17 +120,17 @@ class LoginController extends Controller
                 ]
             );
             $user = Usuario::where('email', $request->email)->first();
-          
+
             $user->update([
                 'password' => bcrypt($request->password),
                 'password_token' => ' ',
-                 
+
             ]);
-           
+ 
             return  redirect('/login');
         } catch (\Throwable $th) {
             //throw $th;
-            return back()->with('error_message', 'No se puedo cambiar la contraseña '. $th);
+            return back()->with('error_message', 'No se puedo cambiar la contraseña ' . $th);
         }
 
 
@@ -131,17 +143,12 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         //registrarBitacora('Ha cerrado sesión.');
+        logController::registrar_bitacora( 'cerro sesion:',$request->ip(), now()->format('Y-m-d H:i:s'));
 
-        Auth::logout();
-
+         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
         return redirect('/');
-        
     }
 }
-
- 
-
-
