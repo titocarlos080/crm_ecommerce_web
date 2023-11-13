@@ -228,7 +228,7 @@
         function redirectToRoute(keyCombination, route) {
         $(document).keydown(function(event) {
             // Verificar si la tecla 'Ctrl' está presionada y la tecla coincide
-            if (event.ctrlKey && event.key === keyCombination) {
+            if (event.shiftKey && event.key === keyCombination) {
                 window.location.href = route;
             }
         });
