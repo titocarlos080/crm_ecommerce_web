@@ -40,6 +40,7 @@ class RegistroController extends Controller
             $empresa->email = $request->email_empresa;
             $empresa->logo = '';
             $empresa->descripcion = $request->descripcion_empresa;
+            $empresa->dominio = $request->nombre_empresa;
             $empresa->id_plan = $request->id_plan;
             $empresa->save();
 

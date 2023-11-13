@@ -2,10 +2,12 @@
 
 namespace App\Livewire\Clientes;
 
+use App\Http\Controllers\logController;
 use App\Models\Rol;
 use App\Models\Usuario;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
@@ -63,6 +65,8 @@ class Create extends Component
                 $usuario->foto = Storage::url($rutaImagen);
             }
             $usuario->save();
+        logController::registrar_bitacora('creo nuevo cliente '.$usuario->nombre,Session::get('ip_cliente'),now()->format('Y-m-d H:i:s'));
+           
             $this->message_error = "cliente creado correctamente";
             $this->reset(  'nombre', 'email', 'telefono', 'password','foto');
         } catch (\Throwable $th) {

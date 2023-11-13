@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Clientes;
 
+use App\Http\Controllers\logController;
 use App\Models\Rol;
 use App\Models\Usuario;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -49,6 +51,8 @@ class Edit extends Component
             $usuario->foto = Storage::url($rutaImagen);
         }
         $usuario->save();
+        logController::registrar_bitacora('edito el cliente '.$usuario->id,Session::get('ip_cliente'),now()->format('Y-m-d H:i:s'));
+
         $this->redirect('/crm/clientes');
     }
 

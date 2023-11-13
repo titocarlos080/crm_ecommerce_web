@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Empresa;
+use App\Models\Permiso;
 use App\Models\Plan;
 use App\Models\Rol;
 use App\Models\Usuario;
@@ -31,7 +32,7 @@ class DatabaseSeeder extends Seeder
                 'usuarios' => 100
             ]
         );
-    
+
         Empresa::factory()->create([
             'nombre' => 'ADM_CENTER',
             'email' => 'proyectostito12@gmail.com',
@@ -40,23 +41,23 @@ class DatabaseSeeder extends Seeder
             'logo' => '/assets/images/users/proyecto.png'
         ]);
 
-      Rol::factory()->create([
-         'nombre'=>'Administrador',
-         'id_empresa'=> 1
-      ]);
-       Rol::factory()->create([
-         'nombre'=>'Empresa',
-         'id_empresa'=> 1
-      ]);
-       Rol::factory()->create([
-         'nombre'=>'Empleado',
-         'id_empresa'=> 1
-      ]);
-       Rol::factory()->create([
-         'nombre'=>'Cliente',
-         'id_empresa'=> 1
-      ]);
-     
+        Rol::factory()->create([
+            'nombre' => 'Administrador',
+            'id_empresa' => 1
+        ]);
+        Rol::factory()->create([
+            'nombre' => 'Empresa',
+            'id_empresa' => 1
+        ]);
+        Rol::factory()->create([
+            'nombre' => 'Empleado',
+            'id_empresa' => 1
+        ]);
+        Rol::factory()->create([
+            'nombre' => 'Cliente',
+            'id_empresa' => 1
+        ]);
+
         /*INSERT INTO usuario (nombre, email, foto, telefono, password, id_rol, id_empresa)
 VALUES('Tito Carlos', 'titocarlos080@gmail.com', 'ruta/foto.jpg', '123456789', '$2y$10$rBxTIT8OiLpYoE6k2yML9eWLbmWPnwNuU5d4Ed29mrsC9o52HuVYa', 1, 1);
 */
@@ -70,5 +71,22 @@ VALUES('Tito Carlos', 'titocarlos080@gmail.com', 'ruta/foto.jpg', '123456789', '
             'id_empresa' => 1
 
         ]);
+
+        Permiso::factory()->create(['nombre' => 'ventas']);
+        Permiso::factory()->create(['nombre' => 'clientes_potenciales']);
+        Permiso::factory()->create(['nombre' => 'informes']);
+        Permiso::factory()->create(['nombre' => 'configuraciones']);
+        Permiso::factory()->create(['nombre' => 'sucursales']);
+        Permiso::factory()->create(['nombre' => 'categoria']);
+        Permiso::factory()->create(['nombre' => 'productos']);
+        Permiso::factory()->create(['nombre' => 'flujo_trabajo']);
+        Permiso::factory()->create(['nombre' => 'empresa_actividad']);
+        Permiso::factory()->create(['nombre' => 'empresa_equipos']);
+        Permiso::factory()->create(['nombre' => 'empresa_clientes']);
+        Permiso::factory()->create(['nombre' => 'agregar_producto']);
+        Permiso::factory()->create(['nombre' => 'eliminar_producto']);
+        Permiso::factory()->create(['nombre' => 'editar_producto']);
+        Permiso::factory()->create(['nombre' => 'crear_empleado']);
+        Permiso::factory()->create(['nombre' => 'eliminar_empleado']);
     }
 }

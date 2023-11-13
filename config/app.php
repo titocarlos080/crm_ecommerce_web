@@ -169,7 +169,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-    ])->toArray(),
+        App\Providers\TenancyServiceProvider::class, // <-- here
+     ])->toArray(),
 
     /*
     |--------------------------------------------------------------------------
@@ -181,9 +182,15 @@ return [
     | the aliases are "lazy" loaded so they don't hinder performance.
     |
     */
-
+    'scp_usuario' => env('SCP_USUARIO'),
+    'scp_servidor' => env('SCP_SERVIDOR'),
+    'scp_ruta_destino' => env('SCP_RUTA_DESTINO'),
+    'scp_clave' => env('SCP_CLAVE'),
+    
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
+
+
 
 ];

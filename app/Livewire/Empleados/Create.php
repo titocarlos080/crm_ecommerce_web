@@ -2,10 +2,12 @@
 
 namespace App\Livewire\Empleados;
 
+use App\Http\Controllers\logController;
 use App\Models\Rol;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -55,6 +57,8 @@ class Create extends Component
             }
             
             DB::commit();
+        logController::registrar_bitacora('creo nuevo empleado '.$usuario->nombre,Session::get('ip_cliente'),now()->format('Y-m-d H:i:s'));
+
             $this->mensaje = "Empleado creado correctamente";
             $this->estado_error = false;
         } catch (\Throwable $th) {

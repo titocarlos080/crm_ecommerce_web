@@ -3,7 +3,9 @@
 namespace App\Livewire\Equipos;
 
 use App\Models\Grupo;
+use App\Models\GrupoPermiso;
 use App\Models\GrupoUsuario;
+use App\Models\Permiso;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +15,7 @@ class Show extends Component
 {
 
     public $vistacrear = false;
+    public $vistaPermiso = false;
     public $vistaedit = false;
     public $crear_actividad = false;
     public $agregar_miembros = false;
@@ -22,6 +25,9 @@ class Show extends Component
     public $equipos;
     public $nombre;
     public $mensaje;
+    public $permisos;
+    public $permisosSeleccionados = [];
+    public $grupo;
     public $estado_mensaje;
     public $usuarios_no_miembros;
     public $usuarios_miembros;
@@ -73,9 +79,36 @@ class Show extends Component
         $miembro->save();
         $this->reset('usuario_para_grupo');
     }
+    public function verificarPermiso($idPermiso)
+    {
+        
+                return $this->grupo->permisos->contains('id', $idPermiso);
+       
+    }
+
+    public function cederPermisos($id)
+    {
+        $this->grupo = Grupo::where('id', $id)->first();
+        $this->vistaPermiso = true;
+    }
+
+    public function ceder_per($id)
+    {
+        $grupo_permiso = GrupoPermiso::where('id_grupo', $this->grupo->id)
+            ->where('id_permiso', $id)
+            ->first();
+        if ($grupo_permiso) {
+
+            $this->grupo->permisos()->detach($id);
+        } else {
+            $this->grupo->permisos()->attach($id);
+        }
+    }
+
 
     public function render()
     {
+        $this->permisos = Permiso::all();
         $this->id_empresa = Auth::user()->empresa->id;
         $this->equipos = DB::select('select * from grupo where id_empresa=?', [$this->id_empresa]);
         return view('livewire.equipos.show');

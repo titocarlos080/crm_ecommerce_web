@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
- 
+
 use Illuminate\Support\Str;
 use App\Models\Usuario;
 use Illuminate\Http\RedirectResponse;
@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 use App\Mail\EmailRessetPassword;
+use Illuminate\Support\Facades\Session;
 use Stringable;
 
 class LoginController extends Controller
@@ -22,42 +23,44 @@ class LoginController extends Controller
     }
 
     public function authenticate(Request $request) //: RedirectResponse
-    { 
-         
-    
-       
-      
+    {
+
+
+
+
         $credencial = $request->validate(['email' => ['required', 'email'], 'password' => ['required']]);
 
         $credenciales = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
+       
         if (Auth::attempt($credenciales)) {
             $request->session()->regenerate();
+            Session::put('ip_cliente', $request->ip());
             $usuario = Auth::user();
-            $user= Usuario::where('id',$usuario->id)->first();
-            $user->update(['ip_add'=> $request->ip()]);
+            $user = Usuario::where('id', $usuario->id)->first();
+            $user->update(['ip_add' => $request->ip()]);
             $rol = $usuario->rol->nombre;
 
             if ($rol === 'Administrador') {
-                logController::registrar_bitacora( 'inicio sesion:',$request->ip(), now()->format('Y-m-d H:i:s'));
+                logController::registrar_bitacora('inicio sesion:', $request->ip(), now()->format('Y-m-d H:i:s'));
                 return redirect()->route('admin_vista');
             }
             if ($rol === 'Empresa') {
 
-                logController::registrar_bitacora( 'inicio sesion:',$request->ip(), now()->format('Y-m-d H:i:s') );
+                logController::registrar_bitacora('inicio sesion:', $request->ip(), now()->format('Y-m-d H:i:s'));
                 return redirect()->route('crm_empresa');
             }
             if ($rol === 'Empleado') {
-                logController::registrar_bitacora( 'inicio sesion:',$request->ip(), now()->format('Y-m-d H:i:s'));
+                // IP_CLIENTE =$request->ip()
+                logController::registrar_bitacora('inicio sesion:', $request->ip(), now()->format('Y-m-d H:i:s'));
                 return redirect()->route('crm_dashboard');
-
             }
 
             return redirect('/');
         }
-        return back()->with('error', 'Credenciales incorrectas'); 
+        return back()->with('error', 'Credenciales incorrectas');
     }
     public function contrasena_ovidada()
     {
@@ -126,7 +129,7 @@ class LoginController extends Controller
                 'password_token' => ' ',
 
             ]);
- 
+
             return  redirect('/login');
         } catch (\Throwable $th) {
             //throw $th;
@@ -143,9 +146,9 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         //registrarBitacora('Ha cerrado sesión.');
-        logController::registrar_bitacora( 'cerro sesion:',$request->ip(), now()->format('Y-m-d H:i:s'));
+        logController::registrar_bitacora('cerro sesion:', $request->ip(), now()->format('Y-m-d H:i:s'));
 
-         Auth::logout();
+        Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

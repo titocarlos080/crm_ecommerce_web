@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Clientes;
 
+use App\Http\Controllers\logController;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
@@ -29,6 +31,8 @@ class Show extends Component
 
     public function mount()
     {
+        logController::registrar_bitacora('vio la vista cliente ',Session::get('ip_cliente'),now()->format('Y-m-d H:i:s'));
+
     }
     public function nuevoEmpleado()
     {

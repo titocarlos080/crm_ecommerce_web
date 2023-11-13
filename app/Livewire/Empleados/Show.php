@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Empleados;
 
+use App\Http\Controllers\logController;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -31,7 +33,8 @@ class Show extends Component
         'password' => '',
     ];
     public function mount()
-    {
+    {         logController::registrar_bitacora('vio la vista empleados ',Session::get('ip_cliente'),now()->format('Y-m-d H:i:s'));
+
 
         $this->id_empresa = Auth::user()->empresa->id;
         $this->empleados = Usuario::where('id_empresa', $this->id_empresa)->get();

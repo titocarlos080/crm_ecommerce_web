@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Actividad;
 
+use App\Http\Controllers\logController;
 use App\Models\Actividad;
 use App\Models\EstadoActividad;
 use App\Models\Tarea;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
@@ -57,6 +59,8 @@ class Show extends Component
         $tarea->id_actividad=$this->actividad_tarea;
         
        $tarea->save();
+       logController::registrar_bitacora('creo nueva tarea ID:'.$tarea->id.'_',Session::get('ip_cliente'),now()->format('Y-m-d H:i:s'));
+
       $this->reset('contenido','finalizado','encargado_tarea','actividad_tarea');
 
     }

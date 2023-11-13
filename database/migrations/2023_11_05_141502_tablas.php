@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('usuarios');
             $table->boolean('soporte_por_correo');
             $table->boolean('soporte_24x7');
-           // $table->timestamps();
+            // $table->timestamps();
         });
 
         // Tabla 'empresa'
@@ -33,9 +33,10 @@ return new class extends Migration
             $table->string('email', 100);
             $table->string('descripcion', 100);
             $table->string('logo')->nullable();
+            $table->string('dominio')->nullable(); // Nuevo campo para el subdominio
             $table->unsignedBigInteger('id_plan');
             $table->foreign('id_plan')->references('id')->on('plan');
-           // $table->timestamps();
+            // $table->timestamps();
         });
 
         // Tabla 'historial'
@@ -45,7 +46,7 @@ return new class extends Migration
             $table->string('descripcion', 100);
             $table->unsignedBigInteger('id_empresa');
             $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
-           // $table->timestamps();
+            // $table->timestamps();
         });
 
         // Tabla 'queja'
@@ -54,7 +55,7 @@ return new class extends Migration
             $table->string('descripcion', 100);
             $table->unsignedBigInteger('id_empresa');
             $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
-           // $table->timestamps();
+            // $table->timestamps();
         });
 
         // Tabla 'rol'
@@ -63,7 +64,7 @@ return new class extends Migration
             $table->string('nombre', 100);
             $table->unsignedBigInteger('id_empresa');
             $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
-           // $table->timestamps();
+            // $table->timestamps();
         });
 
         // Tabla 'usuario'
@@ -81,7 +82,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_empresa');
             $table->foreign('id_rol')->references('id')->on('rol')->onDelete('cascade');
             $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
-           // $table->timestamps();
+            // $table->timestamps();
         });
 
         // Tabla 'favorito_link'
@@ -104,29 +105,16 @@ return new class extends Migration
             //$table->timestamps();
         });
 
-        // Tabla 'permiso'
-        Schema::create('permiso', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre', 60);
-           // $table->timestamps();
-        });
 
-        // Tabla 'rol_permiso'
-        Schema::create('rol_permiso', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_rol');
-            $table->unsignedBigInteger('id_permiso');
-            $table->primary(['id_rol', 'id_permiso']);
-            $table->foreign('id_rol')->references('id')->on('rol')->onDelete('cascade');
-            $table->foreign('id_permiso')->references('id')->on('permiso')->onDelete('cascade');
-          //  $table->timestamps();
-        });
+
+
         // Tabla 'estado_actividad'
         Schema::create('estado_actividad', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
             $table->unsignedBigInteger('id_empresa');
             $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
-           // $table->timestamps();
+            // $table->timestamps();
         });
 
         // Tabla 'grupo'
@@ -135,7 +123,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->unsignedBigInteger('id_empresa');
             $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
-           // $table->timestamps();
+            // $table->timestamps();
         });
 
         // Tabla 'grupo_usuario'
@@ -146,9 +134,25 @@ return new class extends Migration
             $table->unsignedBigInteger('id_grupo');
             $table->foreign('id_usuario')->references('id')->on('usuario')->onDelete('cascade');
             $table->foreign('id_grupo')->references('id')->on('grupo')->onDelete('cascade');
-           // $table->timestamps();
+            // $table->timestamps();
         });
 
+
+        // Tabla 'permiso'
+        Schema::create('permiso', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre', 60);
+            // $table->timestamps();
+        });
+        // Tabla 'grupo_permiso'
+        Schema::create('grupo_permiso', function (Blueprint $table) {
+            $table->unsignedBigInteger('id_grupo');
+            $table->unsignedBigInteger('id_permiso');
+            $table->primary(['id_grupo', 'id_permiso']);
+            $table->foreign('id_grupo')->references('id')->on('rol')->onDelete('cascade');
+            $table->foreign('id_permiso')->references('id')->on('permiso')->onDelete('cascade');
+            //  $table->timestamps();
+        });
         // Tabla 'lead'
         Schema::create('lead', function (Blueprint $table) {
             $table->id();
@@ -158,7 +162,7 @@ return new class extends Migration
             $table->decimal('ganancia_esperada', 10, 2);
             $table->unsignedBigInteger('id_empresa');
             $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
-           // $table->timestamps();
+            // $table->timestamps();
         });
 
         // Tabla 'actividad'
@@ -175,7 +179,7 @@ return new class extends Migration
             $table->foreign('id_grupo')->references('id')->on('grupo')->onDelete('cascade');
             $table->foreign('id_lead')->references('id')->on('lead')->onDelete('cascade');
             $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
-           // $table->timestamps();
+            // $table->timestamps();
         });
 
         // Tabla 'tarea'
@@ -187,7 +191,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_actividad');
             $table->foreign('id_grupo_usuario')->references('id')->on('grupo_usuario')->onDelete('cascade');
             $table->foreign('id_actividad')->references('id')->on('actividad')->onDelete('cascade');
-           // $table->timestamps();
+            // $table->timestamps();
         });
         // Tabla 'sucursal'
         Schema::create('sucursal', function (Blueprint $table) {
@@ -195,7 +199,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->unsignedBigInteger('id_empresa');
             $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
-           // $table->timestamps();
+            // $table->timestamps();
         });
 
         // Tabla 'categoria'
@@ -206,7 +210,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_empresa');
             $table->foreign('id_sucursal')->references('id')->on('sucursal')->onDelete('cascade');
             $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
-          //  $table->timestamps();
+            //  $table->timestamps();
         });
 
         // Tabla 'producto'
@@ -224,7 +228,7 @@ return new class extends Migration
             $table->foreign('id_categoria')->references('id')->on('categoria')->onDelete('cascade');
             $table->foreign('id_sucursal')->references('id')->on('sucursal')->onDelete('cascade');
             $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
-          //  $table->timestamps();
+            //  $table->timestamps();
         });
 
         // Tabla 'calificacion'
@@ -235,7 +239,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_empresa');
             $table->foreign('id_producto')->references('id')->on('producto')->onDelete('cascade');
             $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
-         //   $table->timestamps();
+            //   $table->timestamps();
         });
 
         // Tabla 'comentarios'
@@ -248,7 +252,7 @@ return new class extends Migration
             $table->foreign('id_usuario')->references('id')->on('usuario')->onDelete('cascade');
             $table->foreign('id_producto')->references('id')->on('producto')->onDelete('cascade');
             $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
-           // $table->timestamps();
+            // $table->timestamps();
         });
 
         // Tabla 'presupuesto'
@@ -259,7 +263,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_usuario');
             $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
             $table->foreign('id_usuario')->references('id')->on('usuario')->onDelete('cascade');
-         //   $table->timestamps();
+            //   $table->timestamps();
         });
 
         // Tabla 'detalle_presupuesto'
@@ -272,10 +276,8 @@ return new class extends Migration
             $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
             $table->foreign('id_usuario')->references('id')->on('usuario')->onDelete('cascade');
             $table->foreign('id_producto')->references('id')->on('producto')->onDelete('cascade');
-          //  $table->timestamps();
+            //  $table->timestamps();
         });
-
-
     }
 
     /**
@@ -293,11 +295,11 @@ return new class extends Migration
         Schema::dropIfExists('tarea');
         Schema::dropIfExists('actividad');
         Schema::dropIfExists('lead');
+        Schema::dropIfExists('grupo_permiso');
+        Schema::dropIfExists('permiso');
         Schema::dropIfExists('grupo_usuario');
         Schema::dropIfExists('grupo');
         Schema::dropIfExists('estado_actividad');
-        Schema::dropIfExists('rol_permiso');
-        Schema::dropIfExists('permiso');
         Schema::dropIfExists('direccion');
         Schema::dropIfExists('favorito_link');
         Schema::dropIfExists('usuario');
@@ -306,7 +308,5 @@ return new class extends Migration
         Schema::dropIfExists('historial');
         Schema::dropIfExists('empresa');
         Schema::dropIfExists('plan');
-
-        
     }
 };

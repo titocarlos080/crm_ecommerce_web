@@ -24,8 +24,10 @@
                                 <h5 class="m-0 font-weight-normal">{{$equipo->nombre}}</h5>
                             </td>
                             <td>
-                                <a wire:click='ver_equipo({{$equipo->id}})' class="btn btn-xs btn-light"><i class="fa fa-edit"></i>Ver </a>
-                                <a wire:click='eliminar_equipo({{$equipo->id}})' class="btn btn-xs btn-danger"><i class="mdi mdi-minus"></i>Eliminar</a>
+                                <a wire:click='ver_equipo({{$equipo->id}})' class="btn btn-xs btn-light"><i class="fa fa-edit"></i> Ver</a>
+                                <a wire:click='eliminar_equipo({{$equipo->id}})' class="btn btn-xs btn-danger"><i class="mdi mdi-delete"></i> Eliminar</a>
+                                <a wire:click='cederPermisos({{$equipo->id}})' class="btn btn-xs btn-info"><i class="mdi mdi-peace"></i> Ceder Permisos</a>
+
                             </td>
                         </tr>
                         @endforeach
@@ -40,7 +42,42 @@
             </div>
         </div>
     </div> <!-- end col -->
-    @if($vistacrear)
+    @if($vistaPermiso)
+    <div class="fixed-top inset-0 top-0 left-0 ">
+        <div class="modal-dialog ">
+            <div class="modal-content   " style="background-color:cadetblue; color: white;">
+                <div class="modal-header">
+                    <h4 class="modal-title">CEDER PERMISO</h4>
+                    <button wire:click="$set('vistaPermiso',false)" type="button" class="close btn-danger" data-dismiss="modal" aria-hidden="true">X</button>
+                </div>
+                <div class="modal-body bg-emerald-500">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            @foreach($permisos as $permiso)
+
+                            <div class="checkbox checkbox-primary">
+                                <input id="{{ $permiso->id }}" value="{{ $permiso->id }}" type="checkbox" wire:click="ceder_per({{ $permiso->id }})" @if ($this->verificarPermiso($permiso->id))
+                                checked
+                                @endif
+                                >
+                                <label for="{{ $permiso->id }}">
+                                    {{ $permiso->nombre }}
+                                </label>
+                            </div>
+                            
+                            @endforeach
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    @elseif($vistacrear)
     <div class="fixed-top inset-0 top-0 left-0 ">
         <div class="modal-dialog ">
             <div class="modal-content   " style="background-color:cadetblue; color: white;">
@@ -99,7 +136,7 @@
                                 </select>
                             </div>
                             <button wire:click="agregar_miembro()" class="btn btn-success  "><i class="fa fa-plus">Agregar </i></button>
-                            
+
                             <ul class="mt-1"> Miembros
                                 @foreach($usuarios_miembros as $usuarios_miembro)
                                 <option class="form-control" value="{{$usuarios_miembro->id}}"> {{$usuarios_miembro->nombre}}</option>

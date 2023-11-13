@@ -53,7 +53,6 @@ CREATE TABLE rol (
   id_empresa int NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY(id_empresa) REFERENCES empresa(id) ON DELETE CASCADE
-
 );
 
 
@@ -89,17 +88,7 @@ CREATE TABLE direccion(
 	FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 ---------------------------------------------------------------------
-CREATE TABLE permiso(
-	id serial NOT NULL PRIMARY KEY,
-	nombre varchar(60) 
-);
-CREATE TABLE rol_permiso(
-	id_rol  int NOT NULL ,
-	id_permiso int NOT NULL ,
-	PRIMARY KEY(id_rol,id_permiso),
-	FOREIGN KEY (id_rol) REFERENCES rol(id) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (id_permiso) REFERENCES permiso(id) ON DELETE CASCADE ON UPDATE CASCADE
-);
+
 
 ---------------------------------------------------------------------
 ---------------SPRINT2 ----------------------------------------------
@@ -125,6 +114,20 @@ CREATE TABLE grupo_usuario (
    	FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
    	FOREIGN KEY (id_grupo) REFERENCES grupo(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+CREATE TABLE permiso(
+	id serial NOT NULL PRIMARY KEY,
+	nombre varchar(60) 
+);
+CREATE TABLE grupo_permiso(
+	id_grupo  int NOT NULL ,
+	id_permiso int NOT NULL ,
+	PRIMARY KEY(id_grupo,id_permiso),
+	FOREIGN KEY (id_grupo) REFERENCES grupo(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (id_permiso) REFERENCES permiso(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
 CREATE TABLE lead (
  
 	id serial PRIMARY KEY,
