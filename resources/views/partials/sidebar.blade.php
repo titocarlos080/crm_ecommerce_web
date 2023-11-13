@@ -226,12 +226,13 @@
     $(document).ready(function() {
         // Función para redirigir a la ruta según la combinación de teclas
         function redirectToRoute(keyCombination, route) {
-            $(document).keydown(function(event) {
-                if (event.key === keyCombination) {
-                    window.location.href = route;
-                }
-            });
-        }
+        $(document).keydown(function(event) {
+            // Verificar si la tecla 'Ctrl' está presionada y la tecla coincide
+            if (event.ctrlKey && event.key === keyCombination) {
+                window.location.href = route;
+            }
+        });
+    }
 
         // Configuración de atajos de teclado
        
