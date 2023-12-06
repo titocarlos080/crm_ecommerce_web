@@ -9,12 +9,13 @@ use Illuminate\Support\Facades\Log;
 
 class logController extends Controller
 {
-    public static function registrar_bitacora($descripcion, $ip_cliente,$fecha_cliente)
-    {   $usuario= Usuario::where('id',Auth::user()->id)->first();
+    public static function registrar_bitacora($descripcion, $ip_cliente, $fecha_cliente)
+    {
+        $usuario = Usuario::where('id', Auth::user()->id)->first();
         $id_empresa = $usuario->empresa->id;
-        $fecha= date('Y-m-d H:i:s');
+        $fecha = date('Y-m-d H:i:s');
         $historialFile = storage_path('app/historial_' . $id_empresa . '.txt');
-        $evento = $usuario->nombre.' '.$descripcion.' IP:'.$ip_cliente.' Fecha_cliente:'.$fecha_cliente .' Fecha_servidor:'. $fecha;
+        $evento = $usuario->nombre . ' ' . $descripcion . ' IP:' . $ip_cliente . ' Fecha_cliente:' . $fecha_cliente . ' Fecha_servidor:' . $fecha;
         // Comprobar si el archivo existe
         if (file_exists($historialFile)) {
             // Si el archivo existe, añadir el evento al contenido existente
@@ -26,5 +27,24 @@ class logController extends Controller
         }
         // Guardar el contenido en el archivo
         file_put_contents($historialFile, $historial);
+    }
+
+
+    public static function leer_bitacora()
+    {
+        $usuario = Usuario::where('id', Auth::user()->id)->first();
+        $id_empresa = $usuario->empresa->id;
+        $historialFile = storage_path('app/historial_' . $id_empresa . '.txt');
+
+        // Verifica si el archivo existe antes de intentar leerlo
+        if (file_exists($historialFile)) {
+            // Lee el contenido del archivo
+            $contenido = file_get_contents($historialFile);
+
+            // Haz lo que necesites con el contenido, por ejemplo, imprimirlo
+            return $contenido;
+        } else {
+            dd( "El archivo no se encontró.");
+        }
     }
 }
