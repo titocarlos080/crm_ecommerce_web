@@ -59,6 +59,7 @@ class LoginController extends Controller
                 return redirect()->route('crm_dashboard');
             }
 
+            
             return redirect('/');
         }
         return back()->with('error', 'Credenciales incorrectas');

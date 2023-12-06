@@ -37,7 +37,7 @@ class Show extends Component
             'pedido' => $pedido->id,
          ];
        
-        Mail::to($user[0]->email)->send(new NotiEmailPedido($data));
+        Mail::to('titocarlos080@gmail.com')->send(new NotiEmailPedido($data));
 
     }
     private function  getEstado($id)
