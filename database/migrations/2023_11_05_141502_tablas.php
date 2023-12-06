@@ -219,7 +219,7 @@ return new class extends Migration
         Schema::create('producto', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('imagen')->nullable();
+            $table->text('imagen')->nullable();
             $table->string('descripcion');
             $table->decimal('stock', 10, 2);
             $table->decimal('costo', 10, 2);
