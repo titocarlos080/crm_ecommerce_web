@@ -1,11 +1,15 @@
 <?php
 
+use App\Exports\PedidosExport;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\catalogoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegistroController;
 use App\Http\Controllers\ServicioController;
+use App\Http\Controllers\StripeController;
+use App\Livewire\Ecommerce\Catalogo;
 use App\Models\Empresa;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/ 
+*/
 // Route::middleware('empresa.subdomain')->group(function () {
 //     // Rutas específicas para una empresa
 //     Route::get('/', [LoginController::class, 'login'])->name('loginx');
@@ -43,7 +47,9 @@ Route::middleware('guest')->group(
         Route::get('/password_resset', [LoginController::class, 'password_resset'])->name('password_resset');
         Route::get('/new_password/{token}', [LoginController::class, 'new_password'])->name('new_password');
         Route::post('/save_new_password', [LoginController::class, 'save_new_password'])->name('save_new_password');
-        Route::post('/catalogo/{empresa}', [LoginController::class, 'catalogo'])->name('catalogo');
+        Route::get('/{empresa}/catalogo', [catalogoController::class, 'catalogo'])->name('catalogo');
+        //Route::get('/{empresa}/pedido', [catalogoController::class, 'pedido'])->name('pedido');
+
     }
 );
 Route::middleware('auth')->group(function () {
@@ -60,6 +66,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/crm/productos', [DashboardController::class, 'productos'])->name('productos');
     Route::get('/crm/sucursales', [DashboardController::class, 'sucursales'])->name('sucursales');
     Route::get('/crm/productos', [DashboardController::class, 'productos'])->name('productos');
+    Route::get('/crm/ajustes', [DashboardController::class, 'ajustes'])->name('ajustes');
+    Route::get('/crm/informes', [DashboardController::class, 'informes'])->name('informes');
+    Route::get('/crm/reportes', [DashboardController::class, 'reportes'])->name('reportes');
+    Route::get('/crm/export', [PedidosExport::class, 'collection'])->name('expot_excel');
+    Route::get('/crm/export', [PedidosExport::class, 'pdf'])->name('expot_pdf');
+    Route::get('/crm/pedidos', [DashboardController::class, 'pedido'])->name('pedidos');
+    Route::get('/{empresa}/catalogo_admin', [catalogoController::class, 'catalogo'])->name('catalogo_admin');
+
+    Route::get('/{empresa}/pedido', [catalogoController::class, 'pedido'])->name('pedido');
+    Route::get('/success', [StripeController::class, 'success'])->name('success');
+    Route::post('/session', [StripeController::class, 'session'])->name('session');
+    Route::get('/cancel', [StripeController::class, 'cancel'])->name('cancel');
+    Route::post('/stripe/webhook', [StripeController::class, 'webhook']);
+    Route::get('/imprimir/boleta/{boleta}', [StripeController::class, 'boleta'])->name('boleta');
 });
 Route::middleware('auth.empleado')->group(function () {
     Route::get('/crm', [DashboardController::class, 'crm_vista'])->name('crm_dashboard');
@@ -74,12 +94,11 @@ Route::middleware('auth.admin')->group(function () {
     Route::get('/admin/gestionar_planes', [AdminController::class, 'admin_gestionar_planes'])->name('admin_gestionar_planes');
     Route::get('/admin/gestionar_empresas', [AdminController::class, 'admin_gestionar_empresas'])->name('admin_gestionar_empresas');
     Route::get('/admin/realizar_backup', [AdminController::class, 'realizar_backup'])->name('realizar_backup');
-
 });
 
 
- 
- Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
 

@@ -1,6 +1,6 @@
 <div>
     <div class="row ">
-        <div class="col-sm-4 col-lg-12 ">
+        <div class="col-sm-4 col-lg-12">
             <h3 class="font-weight-bold "><i class="fas fa-store"></i> MIS SUCURSALES</h3>
             @if ($sucursales)
             <button wire:click="crear_vista" class="btn btn-success"> crear nuevo </button>

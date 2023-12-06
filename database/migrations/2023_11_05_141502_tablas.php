@@ -34,6 +34,8 @@ return new class extends Migration
             $table->string('descripcion', 100);
             $table->string('logo')->nullable();
             $table->string('dominio')->nullable(); // Nuevo campo para el subdominio
+            $table->string('stripe_key')->nullable(); // Nuevo campo para el subdominio
+            $table->string('stripe_secret')->nullable(); // Nuevo campo para el subdominio
             $table->unsignedBigInteger('id_plan');
             $table->foreign('id_plan')->references('id')->on('plan');
             // $table->timestamps();
@@ -278,6 +280,42 @@ return new class extends Migration
             $table->foreign('id_producto')->references('id')->on('producto')->onDelete('cascade');
             //  $table->timestamps();
         });
+
+
+        Schema::create('estado_pedido', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
+        });
+        Schema::create('pedido', function (Blueprint $table) {
+            $table->id();
+            $table->timestamp('fecha');
+            $table->unsignedBigInteger('id_empresa');
+            $table->unsignedBigInteger('id_usuario');
+            $table->unsignedBigInteger('id_estado_pedido');
+            $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
+            $table->foreign('id_usuario')->references('id')->on('usuario')->onDelete('cascade');
+            $table->foreign('id_estado_pedido')->references('id')->on('estado_pedido')->onDelete('cascade');
+
+            //  $table->timestamps();
+        });
+        Schema::create('detalle_pedido', function (Blueprint $table) {
+
+            $table->unsignedInteger('cantidad');
+            $table->string('precio_parcial');
+            $table->unsignedBigInteger('id_pedido');
+            $table->unsignedBigInteger('id_producto');
+            $table->foreign('id_pedido')->references('id')->on('pedido')->onDelete('cascade');
+            $table->foreign('id_producto')->references('id')->on('producto')->onDelete('cascade');
+            //  $table->timestamps();
+        });
+        Schema::create('reporte', function (Blueprint $table) {
+            $table->id();
+            $table->timestamp('fecha');
+            $table->unsignedInteger('nombre');
+            $table->unsignedBigInteger('id_empresa');
+            $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
+            //  $table->timestamps();
+        });
     }
 
     /**
@@ -285,6 +323,10 @@ return new class extends Migration
      */
     public function down(): void
     { //
+        Schema::dropIfExists('reporte');
+        Schema::dropIfExists('detalle_pedido');
+        Schema::dropIfExists('pedido');
+        Schema::dropIfExists('estado_pedido');
         Schema::dropIfExists('detalle_presupuesto');
         Schema::dropIfExists('presupuesto');
         Schema::dropIfExists('comentarios');

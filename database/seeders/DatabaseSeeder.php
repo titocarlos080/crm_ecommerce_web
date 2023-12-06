@@ -4,12 +4,18 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Categoria;
 use App\Models\Empresa;
+use App\Models\Pedido;
+use App\Models\Pedido_Estado;
 use App\Models\Permiso;
 use App\Models\Plan;
+use App\Models\Producto;
 use App\Models\Rol;
+use App\Models\Sucursal;
 use App\Models\Usuario;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -71,6 +77,53 @@ VALUES('Tito Carlos', 'titocarlos080@gmail.com', 'ruta/foto.jpg', '123456789', '
             'id_empresa' => 1
 
         ]);
+        //-----segunda enmpresa 
+        Empresa::factory()->create([
+            'nombre' => 'IDATA',
+            'email' => 'data43003@gmail.com',
+            'descripcion' => 'empresa comercial',
+            'id_plan' => 1,
+            'logo' => '/assets/images/users/EMPRESA2.png'
+        ]);
+        Usuario::factory()->create([
+            'nombre' => 'Pedro Data',
+            'email' => 'data43003@gmail.com',
+            'foto' => '/assets/images/users/adm_proyecto.jpg',
+            'telefono' => '72465939',
+            'password' => '$2y$10$rBxTIT8OiLpYoE6k2yML9eWLbmWPnwNuU5d4Ed29mrsC9o52HuVYa',
+            'id_rol' => 2,
+            'id_empresa' => 2
+
+        ]);
+
+        Pedido_Estado::create(['nombre' => 'solicitando']);
+        Pedido_Estado::create(['nombre' => 'aceptado']);
+        Pedido_Estado::create(['nombre' => 'enviando']);
+        Pedido_Estado::create(['nombre' => 'enviado']);
+        Pedido_Estado::create(['nombre' => 'entregado']);
+
+
+        Usuario::factory()->count(20)->empleados()->create();
+        Usuario::factory()->count(20)->clientes()->create();
+
+
+        Sucursal::factory()->create(['nombre' => 'NORTE', 'id_empresa' => 2]);
+        Sucursal::factory()->create(['nombre' => 'CENTRO', 'id_empresa' => 2]);
+        Sucursal::factory()->create(['nombre' => 'SUR', 'id_empresa' => 2]);
+
+        // Categoria::factory()->count(3)->empresa2()->create();
+        Categoria::factory()->count(5)->empresa2(1)->create();
+        Categoria::factory()->count(5)->empresa2(2)->create();
+        Categoria::factory()->count(5)->empresa2(3)->create();
+        Producto::factory()->count(10)->empresa2(1, 1)->create();
+        Producto::factory()->count(10)->empresa2(1, 2)->create();
+        Producto::factory()->count(10)->empresa2(1, 3)->create();
+        Producto::factory()->count(10)->empresa2(2, 3)->create();
+        Producto::factory()->count(10)->empresa2(2, 3)->create();
+        Producto::factory()->count(10)->empresa2(2, 3)->create();
+        Producto::factory()->count(10)->empresa2(3, 3)->create();
+
+        Pedido::factory()->count(10)->create();
 
         Permiso::factory()->create(['nombre' => 'ventas']);
         Permiso::factory()->create(['nombre' => 'clientes_potenciales']);

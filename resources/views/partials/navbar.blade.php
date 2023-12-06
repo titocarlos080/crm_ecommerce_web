@@ -57,7 +57,7 @@
     </ul>
 
     <!-- LOGO -->
-    <div class="logo-box">
+    <div class="logo-box ">
         <a href="#" class="logo text-center mt-1">
             <span class="logo-lg">
                 <img src="{{$empresa->logo}} " alt="img" height="50">

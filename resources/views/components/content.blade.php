@@ -1,5 +1,5 @@
 <div class="content">
-    <div class="container-fluid">
+    <div class="container-fluid ">
         {{$slot}}
 
     </div>

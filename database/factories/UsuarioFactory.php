@@ -18,15 +18,30 @@ class UsuarioFactory extends Factory
     protected $model = Usuario::class;
     public function definition(): array
     {
-        
+        $idEmpresa = $this->faker->randomElement([1, 2]);
         return [
-            'nombre' => 'Tito Carlos',
-            'email' => 'proyectostito12@gmail.com',
-            'foto' => '/assets/images/users/adm_proyecto.jpg',
-            'telefono' => '72465939',
-            'password' => '$2y$10$rBxTIT8OiLpYoE6k2yML9eWLbmWPnwNuU5d4Ed29mrsC9o52HuVYa',
-            'id_rol' => 1,
-            'id_empresa' => 1,
+            'nombre' => $this->faker->name,
+            'email' => $this->faker->unique()->safeEmail,
+            'foto' => $this->faker->imageUrl(),
+            'telefono' => $this->faker->phoneNumber,
+            'password' => bcrypt($this->faker->password),
+            'id_rol' => $this->faker->numberBetween(1, 3), // Cambia según tus necesidades
+            'id_empresa' => $idEmpresa,
         ];
+    }
+    // Nuevo estado para establecer id_empresa a 2
+    public function empleados()
+    {
+        return $this->state([
+            'id_empresa' => 2,
+            'id_rol' => 3,
+        ]);
+    }
+    public function clientes()
+    {
+        return $this->state([
+            'id_empresa' => 2,
+            'id_rol' => 4,
+        ]);
     }
 }

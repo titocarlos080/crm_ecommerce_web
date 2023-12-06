@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,7 +24,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/clientes', function () {
     return Usuario::all();
+    
 });
-Route::post('/login', function (Request $request) {
-    return $request;
+Route::get('/login', function (Request $request) {
+    $user= Usuario::where('id',1)->first();
+     return $user->createToken($request->device_name)->plainTextToken;
 });
