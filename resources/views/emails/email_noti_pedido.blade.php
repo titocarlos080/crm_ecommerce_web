@@ -34,8 +34,10 @@
 
 <body>
     
-      <p id="nombre_receptor">Hola {{$data['nombre']}},</p>
-    <p>Su pedido numero  {{$data['pedido'] }} esta : {{$data['nombre']}} .</p>
+       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore deleniti maiores id dolores eligendi quibusdam laborum ducimus 
+        possimus ipsa dignissimos at iste nostrum, consectetur ea saepe quod atque? Ea, blanditiis!</p>
+ <p id="nombre_receptor">Hola {{$data['nombre']}},</p>
+    <p>Su pedido numero  {{$data['pedido'] }} esta : {{$data['estado']}} .</p>
      <p>Gracias por confiar en nosotros.</p>
     <p style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Atentamente, El Equipo de ventas</p>
 </body>
