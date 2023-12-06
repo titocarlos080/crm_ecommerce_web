@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 use App\Mail\EmailRessetPassword;
+use App\Models\Empresa;
 use Illuminate\Support\Facades\Session;
 use Stringable;
 
@@ -67,31 +68,39 @@ class LoginController extends Controller
         return view('auth.passwords.email');
     }
 
-    public function password_email(Request $request)
-    {        // funcion para enviar un link si el email es valido
-        try {
-            //code...
-            $request->validate(
-                ['email' => 'required|email']
-            );
-            $user = Usuario::where('email', $request->email)->first();
-            $token = Str::random(60);
-            $data = [
-                'nombre' => $user->nombre,
-                'empresa' => $user->empresa->nombre,
-                'link' => route('new_password', ['token' => $token],),
-            ];
-            $user->password_token = $token;
-            $user->password_expiracion = now()->addMinutes(5);
-            $user->save();
-            Mail::to($user->email)->send(new EmailRessetPassword($data));
+                public function password_email(Request $request)
+                {        // funcion para enviar un link si el email es valido
+                    try {
+                        //code...
+                        $request->validate(
+                            ['email' => 'required|email']
+                        );
+                        $user = Usuario::where('email', $request->email)->first();
+                                              
+                      
+                        $token = Str::random(60);
+                    
 
-            return  back()->with('enviado', 'Se envio un email. por favor ver la bandeja de su email');
-        } catch (\Throwable $th) {
-
-            return  back()->with('error_email', 'No se encontro tu email.');
-        }
-    }
+                        $data = [
+                            'nombre' => $user->nombre,
+                            'empresa' =>   $user->empresa->nombre,
+                            'link' => route('new_password', ['token' => $token]),
+                        ];
+                         $user->update([
+                            
+                            'password_token' => $token,
+                            'password_expiracion' => now()->addMinutes(5),
+                        ]  );
+                        
+                      Mail::to($user->email)->send(new EmailRessetPassword($data));
+                     
+                        return  back()->with('enviado', 'Se envio un email. por favor ver la bandeja de su email');
+                    
+                    } catch (\Throwable $th) {
+ 
+                        return  back()->with('error_email', 'No se encontro tu email.'.$th);
+                    }
+                }
 
     public function password_resset()
     {

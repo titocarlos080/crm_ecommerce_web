@@ -33,13 +33,9 @@
 </head>
 
 <body>
-    @php
-    $usuario = auth()->user(); // Obtener el usuario autenticado
-    $empresa = $usuario->empresa; // Acceder a la propiedad "empresa" del usuario
-    @endphp
+    
     <h3 id="nombre_empresa">{{$data['empresa']}}</h3>
-    <img src="{{$empresa->logo}}" alt="foto" srcset="" style="width: 50%; height: 50%;" >
-    <p id="nombre_receptor">Hola {{$data['nombre']}},</p>
+     <p id="nombre_receptor">Hola {{$data['nombre']}},</p>
     <p>Recibes este correo porque has solicitado restablecer tu contraseña en nuestro sitio web.</p>
     <p>Para cambiar tu contraseña, haz clic en el siguiente enlace:</p>
     <p><a id="link" href="{{$data['link']}}">Restablecer Contraseña</a></p>
