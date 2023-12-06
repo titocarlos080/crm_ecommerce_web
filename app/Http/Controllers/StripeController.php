@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NotiEmailPedido;
 use App\Models\Pedido;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Livewire\Livewire;
 
@@ -93,7 +95,17 @@ class StripeController extends Controller
             $suma += $producto['subtotal'];
         }
         $pedido->productos()->attach($detallePedido);
- 
+        $user=DB::select(' select usuario.email ,usuario.nombre
+        from usuario,pedido
+        where usuario.id= pedido.id_usuario and pedido.id=?', [$pedido->id]);
+         $data = [
+            'nombre' => $user[0]->nombre,
+            'estado' => 'Solicitando',
+            'pedido' => $pedido->id,
+         ];
+       
+        Mail::to($user[0]->email)->send(new NotiEmailPedido($data));
+
         return view('livewire.ecommerce.detalle-pedido', [
             'pedido' => $micarrito,
             'empresa' => Session::get('empresa'),
@@ -128,4 +140,17 @@ class StripeController extends Controller
              // Cambia 'doc.pdf' al nombre que desees para el archivo PDF descargado.
              return $pdf->stream('doc.pdf');
     }
+
+    public function generatePdf()
+    {             
+        $pedidos = session('pedidos_filtro');
+ 
+        $pdf = Pdf::loadView('pdf.reportes', [
+            'pedidos' => $pedidos,
+           
+        ]);
+        
+
+        return   $pdf->stream('doc.pdf');
+    } 
 }

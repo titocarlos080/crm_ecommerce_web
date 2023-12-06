@@ -80,6 +80,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/cancel', [StripeController::class, 'cancel'])->name('cancel');
     Route::post('/stripe/webhook', [StripeController::class, 'webhook']);
     Route::get('/imprimir/boleta/{boleta}', [StripeController::class, 'boleta'])->name('boleta');
+Route::get('/generate-pdf', [StripeController::class, 'generatePdf'])->name('filtro_pdf');
 });
 Route::middleware('auth.empleado')->group(function () {
     Route::get('/crm', [DashboardController::class, 'crm_vista'])->name('crm_dashboard');

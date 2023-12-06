@@ -2,9 +2,12 @@
 
 namespace App\Livewire\Pedido;
 
+use App\Mail\NotiEmailPedido;
 use App\Models\Pedido;
 use App\Models\Pedido_Estado;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 class Show extends Component
@@ -25,6 +28,16 @@ class Show extends Component
         $pedido  = Pedido::where('id', $id)->first();
         $pedido->update(['id_estado_pedido'=>$this->estado_seleccionado]);
         $this->dispatch('pedido-cambio_estado', 'Pedido Cambio de estado a '.$this->getEstado($this->estado_seleccionado));
+        $user=DB::select(' select usuario.email ,usuario.nombre
+        from usuario,pedido
+        where usuario.id= pedido.id_usuario and pedido.id=?', [$pedido->id]);
+         $data = [
+            'nombre' => $user[0]->nombre,
+            'estado' => $this->getEstado($this->estado_seleccionado),
+            'pedido' => $pedido->id,
+         ];
+       
+        Mail::to($user[0]->email)->send(new NotiEmailPedido($data));
 
     }
     private function  getEstado($id)
